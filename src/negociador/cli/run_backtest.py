@@ -54,11 +54,11 @@ def print_report(report: dict) -> None:
     else:
         print("(historico insuficiente para calcular ciclos rolantes)")
 
-    print(f"\n--- Risco ---")
+    print("\n--- Risco ---")
     print(f"Drawdown maximo: {report['risco']['drawdown_maximo_pct']:.2f}%")
 
     o = report["operacoes"]
-    print(f"\n--- Operacoes ---")
+    print("\n--- Operacoes ---")
     print(f"Numero de trades: {o['numero_de_trades']}")
     print(f"Taxa de acerto:   {o['taxa_de_acerto_pct']:.1f}%")
     print(f"Profit factor:    {o['profit_factor']:.2f}")

@@ -7,6 +7,7 @@ data/negociador.db-journal
 reports/*.json
 reports/*.html
 .DS_Store
+.claude/
 
 # negociador.db e o cache de precos (data/cache/) SAO versionados de proposito:
 # o GitHub Actions roda em containers efemeros, entao o estado da carteira

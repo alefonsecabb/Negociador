@@ -17,7 +17,7 @@ Principios de design (para nunca reintroduzir lookahead bias por acidente):
 """
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
 import pandas as pd
 
@@ -64,7 +64,7 @@ class BacktestResult:
 
 
 def _fill_price_for_level(day_row: pd.Series, level_price: float, side: str) -> float:
-    open_, low, high = float(day_row["Open"]), float(day_row["Low"]), float(day_row["High"])
+    open_ = float(day_row["Open"])
     if side == "stop":
         if open_ <= level_price:
             return open_  # gap para baixo alem/no stop -> preenche no Open (pior preco)
@@ -145,8 +145,6 @@ def run_backtest(
             pos.high_since_entry = max(pos.high_since_entry, float(day_row["High"]))
             pos.stop_price = apply_breakeven(pos.entry_price, pos.stop_price, pos.high_since_entry, pos.atr_at_entry, risk)
 
-            hit_stop = float(day_row["Low"]) <= pos.stop_price
-            hit_take = float(day_row["High"]) >= pos.take_price
             reason = check_exit(day_row, pos.stop_price, pos.take_price, pos.holding_days, risk.max_holding_days)
             if reason == ExitReason.STOP_LOSS:
                 fill = _fill_price_for_level(day_row, pos.stop_price, "stop")

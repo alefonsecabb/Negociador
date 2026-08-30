@@ -10,7 +10,6 @@ from __future__ import annotations
 from negociador.portfolio.paper_portfolio import create_alert, has_open_or_recent_alert
 from negociador.strategy.order_pricing import (
     ExecutionMarginParams,
-    buy_limit_price,
     stop_loss_limit_price,
     take_profit_limit_price,
 )

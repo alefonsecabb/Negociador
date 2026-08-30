@@ -23,15 +23,25 @@ indicators:
 strategy_variant: trend_breakout   # trend_breakout | mean_reversion
 
 # --- Stop-loss / take-profit (ATR-based) ---
+# atr_stop_multiple, reward_risk_ratio (aqui) e risk_per_trade_pct (em
+# position_sizing, abaixo) foram calibrados por run_walk_forward.py em
+# 30/08/2026 - vencedores do grid search no periodo anterior ao holdout
+# (2018-08 a 2025-02). Resultado no holdout (2025-02 a 2026-08, nunca
+# tocado na calibracao): 25,4% dos ciclos de 30d bateram a meta de 5%,
+# retorno medio de 1,56%/ciclo, drawdown maximo -14,4% - ver
+# reports/walk_forward_report.json para o detalhe completo por janela
+# (a media das 5 janelas out-of-sample foi mais modesta: 16,0% dos ciclos
+# batendo a meta, 0,54%/ciclo em media - o holdout foi favoravel, nao a
+# regra). Re-rode run_walk_forward.py periodicamente para recalibrar.
 risk:
-  atr_stop_multiple: 2.0      # k: stop = entrada - k*ATR
-  reward_risk_ratio: 2.0      # RR: take = entrada + k*RR*ATR
+  atr_stop_multiple: 3.0      # k: stop = entrada - k*ATR
+  reward_risk_ratio: 2.5      # RR: take = entrada + k*RR*ATR
   breakeven_after_r: 1.0      # move o stop para o preco de entrada apos atingir 1R de lucro (0 desativa)
   max_holding_days: 20        # saida forcada por tempo (dias uteis)
 
 # --- Position sizing (carteira de R$100k) ---
 position_sizing:
-  risk_per_trade_pct: 0.01    # 1% do patrimonio arriscado por operacao
+  risk_per_trade_pct: 0.02    # % do patrimonio arriscado por operacao (calibrado - ver nota abaixo)
   max_position_pct: 0.10      # teto de 10% do patrimonio por posicao
   max_open_positions: 12
   min_cash_reserve_pct: 0.10  # nunca alocar os ultimos 10% do patrimonio

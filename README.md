@@ -1,5 +1,8 @@
 # Negociador — apoio a swing trade em ações da B3
 
+Repositório: https://github.com/alefonsecabb/Negociador · Dashboard (após publicar no
+GitHub Pages — ver seção correspondente abaixo): `https://alefonsecabb.github.io/Negociador/`
+
 Ferramenta para **mapear preços de compra e venda** de uma estratégia de swing
 trade em ações do Ibovespa e **gerar alertas** (com preço-limite já ajustado
 para compensar o atraso do dado gratuito) para você executar manualmente no
@@ -61,6 +64,39 @@ corretoras B3 oferece isso) nos preços de stop/take calculados pelo modelo.
 Isso elimina completamente a dependência do atraso do nosso dado para a parte
 mais crítica — a corretora executa em tempo real. O monitor ao vivo continua
 checando esses níveis como alerta de reforço/backup.
+
+## Resultado da validação (walk-forward, 30/08/2026) — a resposta honesta
+
+Isto é o que realmente importa para decidir se vale operar com dinheiro real.
+`run_walk_forward.py` calibrou `atr_stop_multiple`, `reward_risk_ratio` e
+`risk_per_trade_pct` (grid search) usando só dados de TREINO, testou em 5
+janelas de 6 meses **fora da amostra**, e reservou um holdout final de 18
+meses nunca tocado na calibração:
+
+| Métrica | Média das 5 janelas OOS | Holdout final (2025-02 a 2026-08) |
+|---|---|---|
+| % de ciclos de 30d que bateram a meta de 5% | **16,0%** | 25,4% |
+| Retorno médio por ciclo | 0,54% | 1,56% |
+| Drawdown máximo | — | -14,4% |
+
+Os parâmetros vencedores (`atr_stop_multiple=3.0`, `reward_risk_ratio=2.5`,
+`risk_per_trade_pct=2%`) já estão aplicados em `config/strategy_params.yaml`
+e passam a ser os usados pelo monitor ao vivo. O detalhe completo, janela a
+janela (uma delas teve retorno médio NEGATIVO de -1,25%/ciclo e 0% de acerto
+da meta — o modelo não generaliza igualmente bem em todo período), está em
+`reports/walk_forward_report.json`.
+
+**Conclusão honesta**: mesmo calibrado, o modelo **não sustenta 5%/mês de
+forma consistente** — na melhor janela (holdout) chega a 25% dos ciclos, na
+média das janelas fica em 16%. Rodando os mesmos parâmetros calibrados sobre
+todo o histórico 2019-2026 (não é out-of-sample puro, mas dá o quadro geral):
+retorno médio de 1,13%/ciclo, 22,7% dos ciclos bateram a meta, drawdown
+máximo de -20,7%, taxa de acerto de 46,8% em 1.124 trades. Isso é
+consideravelmente melhor que os parâmetros default (0,83%/ciclo, 16,5%,
+-23,5%), mas ainda muito abaixo da meta declarada. Use esses números — não a
+meta original — para decidir se e quanto capital real faz sentido arriscar,
+e considere revisitar a estratégia (outra variante, outro conjunto de
+regras) se a meta de 5%/mês for inegociável para você.
 
 ## Rodando localmente
 
