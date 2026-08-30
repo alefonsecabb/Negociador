@@ -1,18 +1,22 @@
-"""CLI: confirma que uma ordem sugerida por um alerta foi executada no homebroker.
+"""CLI: confirma ou ignora um alerta gerado pelo monitor ao vivo.
 
-So a partir desta confirmacao a carteira ficticia (negociador.db) muda de
+So a partir de uma confirmacao a carteira ficticia (negociador.db) muda de
 estado - o monitor ao vivo (run_monitor) so gera alertas, nunca abre/fecha
-posicoes sozinho.
+posicoes sozinho. Ignorar um alerta so descarta o alerta (nao mexe na
+carteira) e libera o ticker para um sinal novo no proximo ciclo do monitor
+(alertas 'novo' tambem expiram sozinhos apos alguns dias - ver
+config/strategy_params.yaml -> alerts.expires_after_days).
 
 Dois modos de uso:
 
 1) Direto (rodando localmente, com o computador ligado durante o expediente):
        python -m negociador.cli.confirm_execution --alert-id 5
        python -m negociador.cli.confirm_execution --alert-id 5 --fill-price 42.10
+       python -m negociador.cli.confirm_execution --alert-id 5 --ignore
 
-2) Via arquivo de eventos (o botao "marquei como executado" do dashboard,
-   pelo navegador, grava uma linha em data/events.jsonl usando a GitHub API;
-   o workflow on_execute.yml chama este mesmo script em modo --reconcile):
+2) Via arquivo de eventos (os botoes do dashboard, pelo navegador, gravam uma
+   linha em data/events.jsonl usando a GitHub API; o workflow on_execute.yml
+   chama este mesmo script em modo --reconcile):
        python -m negociador.cli.confirm_execution --reconcile
 """
 from __future__ import annotations
@@ -92,18 +96,39 @@ def apply_confirmation(alert_id: int, fill_price: float | None, params: dict) ->
         return {"ok": True, "action": "CLOSE", **trade}
 
 
-def record_event(alert_id: int, fill_price: float | None = None) -> None:
-    """Registra um evento de confirmacao em data/events.jsonl (append-only) -
+def apply_ignore(alert_id: int) -> dict:
+    """Descarta um alerta sem tocar na carteira - libera o ticker para um sinal
+    novo (com preco atual) no proximo ciclo do monitor."""
+    alerts = pp.get_alerts()
+    alert = next((a for a in alerts if a["id"] == alert_id), None)
+    if alert is None:
+        return {"ok": False, "error": f"alerta #{alert_id} nao encontrado"}
+    if alert["status"] != "novo":
+        return {"ok": False, "error": f"alerta #{alert_id} ja esta em status '{alert['status']}'"}
+    pp.set_alert_status(alert_id, "ignorado")
+    return {"ok": True, "action": "IGNORE", "ticker": alert["ticker"], "alert_type": alert["alert_type"]}
+
+
+def record_event(alert_id: int, fill_price: float | None = None, action: str = "confirm") -> None:
+    """Registra um evento (confirmacao ou ignore) em data/events.jsonl (append-only) -
     usado pelo fluxo via navegador (GitHub API) antes do on_execute.yml reconciliar."""
     EVENTS_FILE.parent.mkdir(parents=True, exist_ok=True)
-    event = {"alert_id": alert_id, "fill_price": fill_price, "recorded_at": pd.Timestamp.now().isoformat()}
+    event = {
+        "alert_id": alert_id,
+        "fill_price": fill_price,
+        "action": action,
+        "recorded_at": pd.Timestamp.now().isoformat(),
+    }
     with open(EVENTS_FILE, "a", encoding="utf-8") as f:
         f.write(json.dumps(event, ensure_ascii=False) + "\n")
 
 
 def reconcile_pending_events(params: dict) -> list[dict]:
     """Processa as linhas de data/events.jsonl ainda nao aplicadas (cursor em
-    data/events_cursor.txt) e aplica cada confirmacao pendente."""
+    data/events_cursor.txt) e aplica cada evento pendente (confirmacao ou ignore).
+
+    Linhas antigas sem o campo "action" (gravadas antes desta funcionalidade)
+    sao tratadas como "confirm", para compatibilidade retroativa."""
     if not EVENTS_FILE.exists():
         return []
     lines = EVENTS_FILE.read_text(encoding="utf-8").splitlines()
@@ -114,7 +139,11 @@ def reconcile_pending_events(params: dict) -> list[dict]:
         if not line.strip():
             continue
         event = json.loads(line)
-        result = apply_confirmation(event["alert_id"], event.get("fill_price"), params)
+        action = event.get("action", "confirm")
+        if action == "ignore":
+            result = apply_ignore(event["alert_id"])
+        else:
+            result = apply_confirmation(event["alert_id"], event.get("fill_price"), params)
         results.append({"event": event, "result": result})
 
     CURSOR_FILE.write_text(str(len(lines)))
@@ -123,8 +152,9 @@ def reconcile_pending_events(params: dict) -> list[dict]:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--alert-id", type=int, default=None, help="Confirma diretamente este alerta")
+    parser.add_argument("--alert-id", type=int, default=None, help="Alerta a confirmar ou ignorar")
     parser.add_argument("--fill-price", type=float, default=None, help="Preco realmente executado (default: preco-limite do alerta)")
+    parser.add_argument("--ignore", action="store_true", help="Descarta o alerta sem tocar na carteira (nao usar junto com --fill-price)")
     parser.add_argument("--reconcile", action="store_true", help="Processa eventos pendentes em data/events.jsonl")
     args = parser.parse_args()
 
@@ -140,8 +170,12 @@ def main() -> None:
     if args.alert_id is None:
         parser.error("informe --alert-id ou --reconcile")
 
-    record_event(args.alert_id, args.fill_price)
-    result = apply_confirmation(args.alert_id, args.fill_price, params)
+    if args.ignore:
+        record_event(args.alert_id, action="ignore")
+        result = apply_ignore(args.alert_id)
+    else:
+        record_event(args.alert_id, args.fill_price, action="confirm")
+        result = apply_confirmation(args.alert_id, args.fill_price, params)
     print(result)
 
 

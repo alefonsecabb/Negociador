@@ -25,6 +25,8 @@ def main() -> None:
 
     if report["tax_debited_on_month_roll"]:
         print(f"IR do mes anterior debitado da carteira: R$ {report['tax_debited_on_month_roll']:,.2f}")
+    if report["alerts_expired"]:
+        print(f"{len(report['alerts_expired'])} alerta(s) expirado(s) (nao confirmados nem ignorados a tempo): {report['alerts_expired']}")
     if report["alerts_created"]:
         print(f"{len(report['alerts_created'])} alerta(s) novo(s):")
         for a in report["alerts_created"]:

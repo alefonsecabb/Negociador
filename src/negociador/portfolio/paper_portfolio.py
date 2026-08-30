@@ -78,7 +78,16 @@ CREATE TABLE IF NOT EXISTS tax_state (
 
 
 @contextmanager
-def connect(db_path: Path = DB_PATH):
+def connect(db_path: Path | None = None):
+    # Resolvido em tempo de CHAMADA (nao de definicao): todas as outras funcoes
+    # deste modulo tem `db_path: Path | None = None` e repassam direto pra ca,
+    # entao um monkeypatch em paper_portfolio.DB_PATH (comum em testes) so
+    # funciona porque a resolucao acontece aqui, na hora de conectar - se
+    # cada assinatura capturasse `= DB_PATH` como default, o valor ficaria
+    # congelado no momento em que o modulo foi importado, e nunca refletiria
+    # uma alteracao posterior de DB_PATH.
+    if db_path is None:
+        db_path = DB_PATH
     db_path.parent.mkdir(parents=True, exist_ok=True)
     conn = sqlite3.connect(db_path)
     conn.row_factory = sqlite3.Row
@@ -90,7 +99,7 @@ def connect(db_path: Path = DB_PATH):
         conn.close()
 
 
-def initialize(initial_capital: float, db_path: Path = DB_PATH) -> None:
+def initialize(initial_capital: float, db_path: Path | None = None) -> None:
     """Cria a carteira com o capital inicial, se ainda nao existir (idempotente)."""
     with connect(db_path) as conn:
         row = conn.execute("SELECT id FROM portfolio_state WHERE id = 1").fetchone()
@@ -101,13 +110,13 @@ def initialize(initial_capital: float, db_path: Path = DB_PATH) -> None:
             )
 
 
-def get_cash(db_path: Path = DB_PATH) -> float:
+def get_cash(db_path: Path | None = None) -> float:
     with connect(db_path) as conn:
         row = conn.execute("SELECT cash FROM portfolio_state WHERE id = 1").fetchone()
         return float(row["cash"]) if row else 0.0
 
 
-def get_initial_capital(db_path: Path = DB_PATH) -> float:
+def get_initial_capital(db_path: Path | None = None) -> float:
     with connect(db_path) as conn:
         row = conn.execute("SELECT initial_capital FROM portfolio_state WHERE id = 1").fetchone()
         return float(row["initial_capital"]) if row else 0.0
@@ -117,13 +126,13 @@ def _set_cash(conn: sqlite3.Connection, cash: float) -> None:
     conn.execute("UPDATE portfolio_state SET cash = ?, updated_at = datetime('now') WHERE id = 1", (cash,))
 
 
-def get_open_positions(db_path: Path = DB_PATH) -> list[dict]:
+def get_open_positions(db_path: Path | None = None) -> list[dict]:
     with connect(db_path) as conn:
         rows = conn.execute("SELECT * FROM positions").fetchall()
         return [dict(r) for r in rows]
 
 
-def get_position(ticker: str, db_path: Path = DB_PATH) -> dict | None:
+def get_position(ticker: str, db_path: Path | None = None) -> dict | None:
     with connect(db_path) as conn:
         row = conn.execute("SELECT * FROM positions WHERE ticker = ?", (ticker,)).fetchone()
         return dict(row) if row else None
@@ -132,7 +141,7 @@ def get_position(ticker: str, db_path: Path = DB_PATH) -> dict | None:
 def open_position(
     ticker: str, entry_date: str, entry_price: float, qty: int,
     stop_price: float, take_price: float, atr_at_entry: float,
-    costs: CostParams, db_path: Path = DB_PATH,
+    costs: CostParams, db_path: Path | None = None,
 ) -> bool:
     """Abre uma posicao, debitando o valor da compra + custos do caixa.
     Devolve False (sem efeito) se o caixa disponivel for insuficiente."""
@@ -152,7 +161,7 @@ def open_position(
 
 
 def update_position(ticker: str, stop_price: float | None = None, high_since_entry: float | None = None,
-                     holding_days: int | None = None, db_path: Path = DB_PATH) -> None:
+                     holding_days: int | None = None, db_path: Path | None = None) -> None:
     with connect(db_path) as conn:
         current = conn.execute("SELECT * FROM positions WHERE ticker = ?", (ticker,)).fetchone()
         if not current:
@@ -187,7 +196,7 @@ def _save_tax_tracker(conn: sqlite3.Connection, tracker: TaxTracker) -> None:
     )
 
 
-def roll_tax_month(today: str, costs: CostParams, db_path: Path = DB_PATH) -> float:
+def roll_tax_month(today: str, costs: CostParams, db_path: Path | None = None) -> float:
     """Chamar 1x no INICIO de cada execucao do monitor ao vivo: fecha o mes de
     IR anterior se `today` ja estiver em um mes novo (mesmo sem nenhuma venda
     ainda registrada nesse novo mes), debitando o imposto do caixa. Sem isso,
@@ -204,7 +213,7 @@ def roll_tax_month(today: str, costs: CostParams, db_path: Path = DB_PATH) -> fl
 
 
 def close_position(ticker: str, exit_date: str, exit_price: float, exit_reason: str,
-                    costs: CostParams, db_path: Path = DB_PATH) -> dict | None:
+                    costs: CostParams, db_path: Path | None = None) -> dict | None:
     """Fecha uma posicao aberta: credita o caixa, calcula custos e o IR do mes
     (usando o TaxTracker persistido), e registra o trade. Devolve o resumo do
     trade, ou None se o ticker nao estiver em posicao."""
@@ -243,7 +252,7 @@ def close_position(ticker: str, exit_date: str, exit_price: float, exit_reason: 
         }
 
 
-def get_trades(db_path: Path = DB_PATH) -> list[dict]:
+def get_trades(db_path: Path | None = None) -> list[dict]:
     with connect(db_path) as conn:
         rows = conn.execute("SELECT * FROM trades ORDER BY exit_date").fetchall()
         return [dict(r) for r in rows]
@@ -251,7 +260,7 @@ def get_trades(db_path: Path = DB_PATH) -> list[dict]:
 
 def create_alert(ticker: str, alert_type: str, reference_price: float, limit_price: float,
                   stop_price: float | None = None, take_price: float | None = None,
-                  extra: dict | None = None, db_path: Path = DB_PATH) -> int:
+                  extra: dict | None = None, db_path: Path | None = None) -> int:
     with connect(db_path) as conn:
         cur = conn.execute(
             """INSERT INTO alerts (created_at, ticker, alert_type, reference_price, limit_price, stop_price, take_price, status, extra_json)
@@ -261,7 +270,7 @@ def create_alert(ticker: str, alert_type: str, reference_price: float, limit_pri
         return cur.lastrowid
 
 
-def get_alerts(status: str | None = None, db_path: Path = DB_PATH) -> list[dict]:
+def get_alerts(status: str | None = None, db_path: Path | None = None) -> list[dict]:
     with connect(db_path) as conn:
         if status:
             rows = conn.execute("SELECT * FROM alerts WHERE status = ? ORDER BY id DESC", (status,)).fetchall()
@@ -270,12 +279,12 @@ def get_alerts(status: str | None = None, db_path: Path = DB_PATH) -> list[dict]
         return [dict(r) for r in rows]
 
 
-def set_alert_status(alert_id: int, status: str, db_path: Path = DB_PATH) -> None:
+def set_alert_status(alert_id: int, status: str, db_path: Path | None = None) -> None:
     with connect(db_path) as conn:
         conn.execute("UPDATE alerts SET status = ? WHERE id = ?", (status, alert_id))
 
 
-def has_open_or_recent_alert(ticker: str, alert_type: str, db_path: Path = DB_PATH) -> bool:
+def has_open_or_recent_alert(ticker: str, alert_type: str, db_path: Path | None = None) -> bool:
     """Evita spam de alertas repetidos: verifica se ja existe um alerta 'novo' do
     mesmo tipo para o ticker (o usuario ainda nao confirmou nem ignorou)."""
     with connect(db_path) as conn:
@@ -284,3 +293,21 @@ def has_open_or_recent_alert(ticker: str, alert_type: str, db_path: Path = DB_PA
             (ticker, alert_type),
         ).fetchone()
         return row is not None
+
+
+def expire_stale_alerts(max_age_days: float, db_path: Path | None = None) -> list[int]:
+    """Marca como 'expirado' qualquer alerta 'novo' criado ha mais de `max_age_days`
+    dias corridos - o usuario nunca confirmou nem ignorou. Sem isso, o alerta
+    ficaria pendente para sempre com um preco-limite cada vez mais desatualizado,
+    e o ticker ficaria bloqueado para um novo sinal (ver has_open_or_recent_alert).
+    Chamar no INICIO de cada execucao do monitor, antes de varrer sinais novos.
+    Devolve a lista de ids expirados."""
+    with connect(db_path) as conn:
+        rows = conn.execute(
+            "SELECT id FROM alerts WHERE status = 'novo' AND (julianday('now') - julianday(created_at)) >= ?",
+            (max_age_days,),
+        ).fetchall()
+        ids = [r["id"] for r in rows]
+        if ids:
+            conn.executemany("UPDATE alerts SET status = 'expirado' WHERE id = ?", [(i,) for i in ids])
+        return ids

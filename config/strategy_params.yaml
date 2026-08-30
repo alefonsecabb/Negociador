@@ -75,5 +75,13 @@ walk_forward:
   step_months: 12
   final_holdout_months: 18
 
+# --- Alertas ---
+alerts:
+  expires_after_days: 2   # alerta 'novo' nao confirmado nem ignorado expira sozinho apos N dias corridos
+  # Motivo: sem isso, um alerta de ENTRADA fica pendente indefinidamente com um
+  # preco-limite cada vez mais desatualizado, e ate ser confirmado/ignorado ele
+  # "trava" aquele ticker (o monitor nao gera um alerta novo pra ele). Expirar
+  # libera o ticker para um sinal fresco, com preco atual, no proximo ciclo.
+
 # --- Meta ---
 target_monthly_return_pct: 0.05   # 5% por ciclo rolante de 30 dias

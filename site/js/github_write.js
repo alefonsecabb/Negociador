@@ -39,7 +39,7 @@ function b64DecodeUnicode(str) {
   return decodeURIComponent(escape(atob(str)));
 }
 
-async function ghAppendEvent(alertId, fillPrice) {
+async function ghAppendEvent(alertId, fillPrice, action = "confirm") {
   const token = ghGetToken();
   if (!token) {
     throw new Error("Nenhum token do GitHub configurado. Cole um fine-grained PAT na secao 'Confirmar execucao pelo navegador'.");
@@ -61,14 +61,18 @@ async function ghAppendEvent(alertId, fillPrice) {
     throw new Error(`Falha ao ler ${GH_EVENTS_PATH}: HTTP ${getResp.status}`);
   }
 
-  const event = { alert_id: alertId, fill_price: fillPrice ?? null, recorded_at: new Date().toISOString() };
+  const event = { alert_id: alertId, fill_price: fillPrice ?? null, action, recorded_at: new Date().toISOString() };
   const newContent = existingContent + JSON.stringify(event) + "\n";
+
+  const commitMessage = action === "ignore"
+    ? `Ignora o alerta #${alertId}`
+    : `Confirma execucao do alerta #${alertId}`;
 
   const putResp = await fetch(apiBase, {
     method: "PUT",
     headers: { ...headers, "Content-Type": "application/json" },
     body: JSON.stringify({
-      message: `Confirma execucao do alerta #${alertId}`,
+      message: commitMessage,
       content: b64EncodeUnicode(newContent),
       branch: GH_BRANCH,
       ...(sha ? { sha } : {}),

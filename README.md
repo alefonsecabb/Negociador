@@ -38,7 +38,13 @@ antes de arriscar capital real.
 4. **Monitor ao vivo**: roda no GitHub Actions (não precisa do seu computador
    ligado), varre o watchlist e as posições abertas, e grava alertas com o
    **preço-limite de compra/venda** já com uma margem de execução (compensa o
-   atraso do dado) — ver "Preço-limite com margem" abaixo.
+   atraso do dado) — ver "Preço-limite com margem" abaixo. Um alerta não
+   confirmado nem ignorado **expira sozinho** após alguns dias
+   (`config/strategy_params.yaml` → `alerts.expires_after_days`, padrão 2) —
+   evita ficar com um preço-limite obsoleto pendurado e libera o ticker para
+   um sinal novo. Você também pode **ignorar** um alerta manualmente (botão
+   no dashboard, ou `confirm_execution.py --alert-id N --ignore`) se decidir
+   não seguir a sugestão.
 5. **Dashboard**: publicado no GitHub Pages, mostra carteira, posições,
    alertas do dia e a performance do backtest/walk-forward.
 6. **Você decide e executa manualmente no homebroker.** A ferramenta nunca

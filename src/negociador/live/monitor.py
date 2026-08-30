@@ -68,8 +68,19 @@ def run_monitor_once(params: dict, tickers: list[str] | None = None) -> dict:
     pp.initialize(params["capital_inicial"])
     tax_due = pp.roll_tax_month(today_str, costs)
 
+    # Expira alertas pendentes antigos ANTES de varrer sinais novos, para que o
+    # ticker liberado ja possa receber um alerta fresco (preco atual) neste
+    # mesmo ciclo, em vez de esperar o proximo.
+    expires_after_days = params.get("alerts", {}).get("expires_after_days", 2)
+    expired_ids = pp.expire_stale_alerts(expires_after_days)
+
     open_positions = {p["ticker"]: p for p in pp.get_open_positions()}
-    report = {"tax_debited_on_month_roll": tax_due, "alerts_created": [], "errors": []}
+    report = {
+        "tax_debited_on_month_roll": tax_due,
+        "alerts_expired": expired_ids,
+        "alerts_created": [],
+        "errors": [],
+    }
 
     # --- 1) posicoes abertas: verifica saida ---
     for ticker, pos in open_positions.items():

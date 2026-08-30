@@ -17,6 +17,16 @@ function fmtPct(v, digits = 2) {
   return `${v.toFixed(digits)}%`;
 }
 
+// O sqlite grava created_at como "YYYY-MM-DD HH:MM:SS" (UTC, sem sufixo) via
+// datetime('now') - alguns navegadores (Safari) nao parseiam esse formato
+// corretamente com `new Date()`, entao normalizamos para ISO 8601 explicito.
+function parseUtcTimestamp(s) {
+  if (!s) return null;
+  const iso = s.includes("T") ? s : s.replace(" ", "T") + "Z";
+  const d = new Date(iso);
+  return Number.isNaN(d.getTime()) ? null : d;
+}
+
 function statTile(label, value, sub = "", cls = "") {
   return `<div class="stat-tile"><div class="label">${label}</div>
     <div class="value ${cls}">${value}</div>
@@ -37,12 +47,26 @@ async function confirmAlert(alertId, btn) {
   btn.disabled = true;
   btn.textContent = "Confirmando...";
   try {
-    await ghAppendEvent(alertId, null);
+    await ghAppendEvent(alertId, null, "confirm");
     btn.textContent = "Confirmado! (aguarde o workflow reconciliar)";
   } catch (err) {
     btn.disabled = false;
     btn.textContent = "Marquei como executado";
     alert(`Nao foi possivel confirmar pelo navegador:\n${err.message}\n\nAlternativa: rode localmente\npython -m negociador.cli.confirm_execution --alert-id ${alertId}`);
+  }
+}
+
+async function ignoreAlert(alertId, btn) {
+  if (!confirm(`Ignorar o alerta #${alertId}? Ele some da lista e o ticker fica livre para um sinal novo no proximo ciclo.`)) return;
+  btn.disabled = true;
+  btn.textContent = "Ignorando...";
+  try {
+    await ghAppendEvent(alertId, null, "ignore");
+    btn.textContent = "Ignorado! (aguarde o workflow reconciliar)";
+  } catch (err) {
+    btn.disabled = false;
+    btn.textContent = "Ignorar";
+    alert(`Nao foi possivel ignorar pelo navegador:\n${err.message}\n\nAlternativa: rode localmente\npython -m negociador.cli.confirm_execution --alert-id ${alertId} --ignore`);
   }
 }
 
@@ -65,10 +89,12 @@ function renderAlerts(alerts) {
           </div>
           <div style="display:flex; align-items:center; gap:8px;">
             <strong>Limite: R$ ${a.limit_price?.toFixed(2)}</strong>
+            <button class="ghost-btn" onclick="ignoreAlert(${a.id}, this)">Ignorar</button>
             <button class="confirm-btn" onclick="confirmAlert(${a.id}, this)">Marquei como executado</button>
           </div>
         </div>
         ${extra.recomendacao ? `<div class="rec-text">${extra.recomendacao}</div>` : ""}
+        <div class="rec-text" style="opacity:.7;">Criado em ${parseUtcTimestamp(a.created_at)?.toLocaleString("pt-BR") ?? a.created_at} · expira sozinho se ficar sem resposta por alguns dias.</div>
       </div>`;
   }).join("");
 }
