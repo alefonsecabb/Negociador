@@ -60,8 +60,21 @@ def publish_alerts() -> list[dict]:
 
 
 def publish_backtest_reports() -> None:
+    """Copia reports/backtest_report.json e reports/walk_forward_report.json
+    para site/data/backtest.json.
+
+    reports/*.json e' gitignored (saida local, regenerada sob demanda por
+    run_backtest.py/run_walk_forward.py) - o monitor ao vivo roda em
+    containers efemeros do GitHub Actions que NUNCA tem esses arquivos.
+    Por isso, se nenhum dos dois existir no momento da chamada, esta funcao
+    NAO sobrescreve site/data/backtest.json: preserva a ultima publicacao
+    boa (feita manualmente, com os relatorios presentes) em vez de apagar o
+    resultado do backtest/walk-forward do dashboard a cada ciclo do monitor.
+    """
     backtest_path = REPORTS_DIR / "backtest_report.json"
     wf_path = REPORTS_DIR / "walk_forward_report.json"
+    if not backtest_path.exists() and not wf_path.exists():
+        return
     out = {"generated_at": pd_now()}
     if backtest_path.exists():
         out["backtest"] = json.loads(backtest_path.read_text(encoding="utf-8"))
