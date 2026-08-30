@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Negociador - Swing Trade B3</title>
+<link rel="stylesheet" href="css/style.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
+</head>
+<body>
+<div class="wrap">
+  <header class="app-header">
+    <h1>📈 Negociador — swing trade B3</h1>
+    <span id="last-updated">carregando...</span>
+  </header>
+
+  <div class="disclaimer">
+    <strong>Aviso de expectativa:</strong> a meta de 5%/ciclo de 30 dias equivale a mais de 80%/ano
+    composto — muito acima do que a maioria das estrategias sistematicas sustenta de forma
+    consistente, liquida de custos e impostos. Os numeros abaixo (backtest e walk-forward
+    fora da amostra) sao reportados de forma honesta para voce decidir se confia no modelo
+    antes de arriscar capital real — nao uma promessa de retorno.
+  </div>
+
+  <section id="stats-section">
+    <div class="stat-row" id="stat-row"></div>
+  </section>
+
+  <section>
+    <h2>Alertas do dia</h2>
+    <div class="card">
+      <div id="alerts-container"></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Posicoes abertas</h2>
+    <div class="card table-scroll">
+      <table id="positions-table">
+        <thead>
+          <tr>
+            <th>Ticker</th><th>Entrada</th><th class="num">Preco entrada</th>
+            <th class="num">Preco atual</th><th class="num">Stop</th><th class="num">Take</th>
+            <th class="num">Dias</th><th class="num">P&amp;L</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <div class="empty-state" id="positions-empty" hidden>Nenhuma posicao aberta no momento.</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Performance do backtest (validacao do modelo)</h2>
+    <div class="stat-row" id="backtest-stat-row"></div>
+    <div class="card">
+      <div class="chart-container"><canvas id="equity-chart"></canvas></div>
+    </div>
+    <br/>
+    <div class="card">
+      <div class="chart-container"><canvas id="cycles-chart"></canvas></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Watchlist Ibovespa</h2>
+    <div class="card table-scroll">
+      <table id="watchlist-table">
+        <thead><tr><th>Ticker</th><th>Status</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>Confirmar execucao pelo navegador (opcional)</h2>
+    <div class="card">
+      <p class="rec-text">
+        Por padrao, confirme as ordens executadas rodando localmente
+        <code>python -m negociador.cli.confirm_execution --alert-id N</code> e dando <code>git push</code>.
+        Se preferir confirmar tambem pelo celular/navegador, cole aqui um GitHub
+        <em>fine-grained personal access token</em> com acesso restrito a este
+        repositorio e permissao apenas de <code>contents: write</code> (crie em
+        github.com/settings/tokens). Ele fica salvo so no localStorage deste navegador.
+      </p>
+      <div class="token-setup">
+        <input type="password" id="gh-token-input" placeholder="github_pat_..." />
+        <button class="ghost-btn" id="gh-token-save">Salvar token</button>
+        <button class="ghost-btn" id="gh-token-clear">Remover</button>
+        <span id="gh-token-status"></span>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script src="js/charts.js"></script>
+<script src="js/github_write.js"></script>
+<script src="js/dashboard.js"></script>
+</body>
+</html>

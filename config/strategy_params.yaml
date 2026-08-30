@@ -1,0 +1,69 @@
+# Parametros da estrategia de swing trade.
+# Estes sao os valores "correntes" usados pelo monitor ao vivo e pelo backtest
+# quando nao ha um conjunto calibrado em reports/calibration_best.json.
+# O comando `run_backtest`/`calibration` pode sobrescrever este arquivo com os
+# parametros vencedores da validacao out-of-sample (ver backtest/calibration.py).
+
+capital_inicial: 100000.0
+
+# --- Indicadores / regras de entrada ---
+indicators:
+  ema_trend_period: 100      # filtro de tendencia: preco > EMA(100) para operar comprado
+  donchian_period: 20        # rompimento: maxima dos ultimos N dias
+  volume_ma_period: 20        # media de volume para confirmar rompimento
+  rsi_period: 14
+  rsi_oversold: 30
+  bollinger_period: 20
+  bollinger_std: 2.0
+  macd_fast: 12
+  macd_slow: 26
+  macd_signal: 9
+  atr_period: 14
+
+strategy_variant: trend_breakout   # trend_breakout | mean_reversion
+
+# --- Stop-loss / take-profit (ATR-based) ---
+risk:
+  atr_stop_multiple: 2.0      # k: stop = entrada - k*ATR
+  reward_risk_ratio: 2.0      # RR: take = entrada + k*RR*ATR
+  breakeven_after_r: 1.0      # move o stop para o preco de entrada apos atingir 1R de lucro (0 desativa)
+  max_holding_days: 20        # saida forcada por tempo (dias uteis)
+
+# --- Position sizing (carteira de R$100k) ---
+position_sizing:
+  risk_per_trade_pct: 0.01    # 1% do patrimonio arriscado por operacao
+  max_position_pct: 0.10      # teto de 10% do patrimonio por posicao
+  max_open_positions: 12
+  min_cash_reserve_pct: 0.10  # nunca alocar os ultimos 10% do patrimonio
+
+# --- Margem de execucao (compensa o atraso do yfinance no preco-limite) ---
+execution_margin:
+  min_buy_margin_pct: 0.003     # margem minima de compra (0,3%)
+  min_sell_margin_pct: 0.002    # margem minima de venda no take-profit (0,2%)
+  min_stop_margin_pct: 0.004    # margem minima de venda no stop-loss (0,4% - prioriza execucao)
+  k_margin_atr: 0.12            # fracao do ATR% diario somada a margem minima
+
+# --- Custos de mercado (B3, pessoa fisica, swing trade em acoes a vista) ---
+costs:
+  b3_emolument_pct: 0.0003    # 0,03% por operacao (compra e venda)
+  brokerage_fee_brl: 0.0      # corretagem fixa por ordem (ajuste para a sua corretora)
+  income_tax_pct: 0.15        # 15% sobre o lucro liquido do mes
+  income_tax_exempt_sales_brl: 20000.0  # isencao se soma das VENDAS do mes < R$20.000
+
+# --- Grid de calibracao (backtest/calibration.py) ---
+calibration_grid:
+  atr_stop_multiple: [1.5, 2.0, 2.5, 3.0]
+  reward_risk_ratio: [1.5, 2.0, 2.5, 3.0]
+  risk_per_trade_pct: [0.005, 0.01, 0.015, 0.02]
+
+# --- Walk-forward ---
+# step_months=12 (em vez de 6) para manter o numero de janelas gerenciavel
+# computacionalmente sem abrir mao de cobrir regimes de mercado distintos.
+walk_forward:
+  train_months: 24
+  test_months: 6
+  step_months: 12
+  final_holdout_months: 18
+
+# --- Meta ---
+target_monthly_return_pct: 0.05   # 5% por ciclo rolante de 30 dias

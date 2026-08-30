@@ -1,0 +1,41 @@
+name: Atualiza cache historico (diario)
+
+# Roda 1x por dia dias uteis, apos o fechamento da B3 (~18h BRT = 21h UTC).
+# So atualiza o historico (parquet) usado pelo backtest - o monitor ao vivo
+# (monitor.yml) nao depende disso a cada ciclo intradiario.
+on:
+  schedule:
+    - cron: "0 21 * * 1-5"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: negociador-live-state
+  cancel-in-progress: false
+
+jobs:
+  update-cache:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instalar dependencias
+        run: pip install -e .
+
+      - name: Atualizar cache de precos
+        run: python -m negociador.cli.update_cache
+
+      - name: Commit e push do cache atualizado
+        run: |
+          git config user.name "negociador-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/cache
+          git diff --cached --quiet || git commit -m "cache: atualiza historico de precos"
+          git pull --rebase --autostash origin ${{ github.ref_name }}
+          git push

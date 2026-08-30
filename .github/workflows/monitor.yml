@@ -1,0 +1,47 @@
+name: Monitor ao vivo (sinais e alertas)
+
+# Roda a cada ~15min durante o horario de pregao da B3 (10h-18h horario de
+# Brasilia = 13h-20h59 UTC, ja que o Brasil nao usa mais horario de verao),
+# de segunda a sexta. O agendador do GitHub Actions e "best effort": pode
+# atrasar alguns minutos em picos de uso, e workflows agendados sao pausados
+# automaticamente apos 60 dias sem nenhum commit no repo (reative manualmente
+# na aba Actions se isso acontecer).
+on:
+  schedule:
+    - cron: "*/15 13-20 * * 1-5"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: negociador-live-state
+  cancel-in-progress: false
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instalar dependencias
+        run: pip install -e .
+
+      - name: Rodar monitor ao vivo
+        run: python -m negociador.cli.run_monitor
+
+      - name: Publicar dados do site
+        run: python -m negociador.cli.publish_site
+
+      - name: Commit e push do estado atualizado
+        run: |
+          git config user.name "negociador-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/negociador.db site/data
+          git diff --cached --quiet || git commit -m "monitor: atualiza sinais/alertas/carteira"
+          git pull --rebase --autostash origin ${{ github.ref_name }}
+          git push

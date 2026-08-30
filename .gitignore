@@ -1,0 +1,16 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+*.egg-info/
+data/negociador.db-journal
+reports/*.json
+reports/*.html
+.DS_Store
+
+# negociador.db e o cache de precos (data/cache/) SAO versionados de proposito:
+# o GitHub Actions roda em containers efemeros, entao o estado da carteira
+# ficticia e o historico de precos precisam estar no repo para persistir
+# entre uma execucao agendada e a proxima.
+!data/negociador.db
+!data/cache/

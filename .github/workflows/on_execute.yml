@@ -1,0 +1,46 @@
+name: Reconcilia confirmacao de execucao
+
+# Dispara quando data/events.jsonl e atualizado (o botao "marquei como
+# executado" do dashboard grava um evento ali via GitHub API, direto do
+# navegador) - aplica a confirmacao pendente (abre/fecha a posicao na
+# carteira ficticia) e republica os JSONs do site.
+on:
+  push:
+    paths:
+      - "data/events.jsonl"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: negociador-live-state
+  cancel-in-progress: false
+
+jobs:
+  reconcile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instalar dependencias
+        run: pip install -e .
+
+      - name: Reconciliar eventos pendentes
+        run: python -m negociador.cli.confirm_execution --reconcile
+
+      - name: Publicar dados do site
+        run: python -m negociador.cli.publish_site
+
+      - name: Commit e push do estado atualizado
+        run: |
+          git config user.name "negociador-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/negociador.db data/events_cursor.txt site/data
+          git diff --cached --quiet || git commit -m "confirm_execution: reconcilia carteira"
+          git pull --rebase --autostash origin ${{ github.ref_name }}
+          git push
