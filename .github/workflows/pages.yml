@@ -1,13 +1,24 @@
 name: Publica o dashboard (GitHub Pages)
 
-# Publica o conteudo de site/ sempre que ele mudar - inclusive quando
-# monitor.yml, daily_cache.yml ou on_execute.yml commitam novos JSONs em
-# site/data/, para o dashboard sempre refletir a ultima execucao.
+# Publica o conteudo de site/. Dois gatilhos:
+# - push direto em site/** (ex. voce editando o dashboard manualmente).
+# - workflow_run: commits feitos com o GITHUB_TOKEN de DENTRO de outra Action
+#   (e o caso do monitor.yml, daily_cache.yml, on_execute.yml) NAO disparam
+#   eventos "push" normais - e uma protecao do GitHub contra loop infinito
+#   entre workflows. Por isso o deploy do Pages so acompanha essas execucoes
+#   via workflow_run, que dispara ao final de outro workflow terminar,
+#   independente de qual token commitou.
 on:
   push:
     branches: [main]
     paths:
       - "site/**"
+  workflow_run:
+    workflows:
+      - "Monitor ao vivo (sinais e alertas)"
+      - "Atualiza cache historico (diario)"
+      - "Reconcilia confirmacao de execucao"
+    types: [completed]
   workflow_dispatch: {}
 
 permissions:
@@ -21,6 +32,7 @@ concurrency:
 
 jobs:
   deploy:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
