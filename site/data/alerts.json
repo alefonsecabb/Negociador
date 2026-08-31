@@ -1,4 +1,29 @@
 {
-  "generated_at": "2026-08-30T20:22:27.380842",
-  "alerts": []
+  "generated_at": "2026-08-31T19:16:43.796200",
+  "alerts": [
+    {
+      "id": 2,
+      "created_at": "2026-08-31 19:16:40",
+      "ticker": "RECV3",
+      "alert_type": "ENTRADA",
+      "reference_price": 10.84000015258789,
+      "limit_price": 10.96,
+      "stop_price": 7.769685339399555,
+      "take_price": 18.51578718555873,
+      "status": "novo",
+      "extra_json": "{\"atr\": 1.0234382710627785, \"atr_pct\": 0.09441312330779328, \"variant\": \"trend_breakout\", \"as_of\": \"2026-08-31 00:00:00\", \"recomendacao\": \"Ordem LIMITADA de compra a R$ 10.96. Assim que executada, cadastre no homebroker uma ordem STOP de venda a R$ 7.77 (protecao) e, se possivel, um take-profit (OCO) a R$ 18.52.\"}"
+    },
+    {
+      "id": 1,
+      "created_at": "2026-08-31 19:16:38",
+      "ticker": "MOTV3",
+      "alert_type": "ENTRADA",
+      "reference_price": 15.59000015258789,
+      "limit_price": 15.76,
+      "stop_price": 11.412907015261567,
+      "take_price": 26.0327329959037,
+      "status": "novo",
+      "extra_json": "{\"atr\": 1.3923643791087748, \"atr_pct\": 0.08931137687498013, \"variant\": \"trend_breakout\", \"as_of\": \"2026-08-31 00:00:00\", \"recomendacao\": \"Ordem LIMITADA de compra a R$ 15.76. Assim que executada, cadastre no homebroker uma ordem STOP de venda a R$ 11.41 (protecao) e, se possivel, um take-profit (OCO) a R$ 26.03.\"}"
+    }
+  ]
 }
