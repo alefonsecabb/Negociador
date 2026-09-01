@@ -1,6 +1,18 @@
 {
-  "generated_at": "2026-09-01T19:55:38.306428",
+  "generated_at": "2026-09-01T22:08:09.147677",
   "alerts": [
+    {
+      "id": 7,
+      "created_at": "2026-09-01 22:08:03",
+      "ticker": "PRIO3",
+      "alert_type": "ENTRADA",
+      "reference_price": 64.08999633789062,
+      "limit_price": 64.74,
+      "stop_price": 47.72026737758128,
+      "take_price": 105.014318738664,
+      "status": "novo",
+      "extra_json": "{\"atr\": 5.456576320103116, \"atr_pct\": 0.08513928275694307, \"variant\": \"trend_breakout\", \"as_of\": \"2026-09-01 00:00:00\", \"recomendacao\": \"Ordem LIMITADA de compra a R$ 64.74. Assim que executada, cadastre no homebroker uma ordem STOP de venda a R$ 47.72 (protecao) e, se possivel, um take-profit (OCO) a R$ 105.01.\"}"
+    },
     {
       "id": 6,
       "created_at": "2026-09-01 19:55:35",
