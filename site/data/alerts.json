@@ -1,6 +1,54 @@
 {
-  "generated_at": "2026-09-02T19:32:41.891568",
+  "generated_at": "2026-09-02T21:58:27.141737",
   "alerts": [
+    {
+      "id": 31,
+      "created_at": "2026-09-02 21:58:26",
+      "ticker": "YDUQ3",
+      "alert_type": "ENTRADA",
+      "reference_price": 9.3100004196167,
+      "limit_price": 9.42,
+      "stop_price": 6.618446730746847,
+      "take_price": 16.03888464179133,
+      "status": "novo",
+      "extra_json": "{\"atr\": 0.8971845629566174, \"atr_pct\": 0.09636783270881477, \"variant\": \"trend_breakout\", \"as_of\": \"2026-09-02 00:00:00\", \"recomendacao\": \"Ordem LIMITADA de compra a R$ 9.42. Assim que executada, cadastre no homebroker uma ordem STOP de venda a R$ 6.62 (protecao) e, se possivel, um take-profit (OCO) a R$ 16.04.\"}"
+    },
+    {
+      "id": 30,
+      "created_at": "2026-09-02 21:58:26",
+      "ticker": "VIVA3",
+      "alert_type": "ENTRADA",
+      "reference_price": 23.920000076293945,
+      "limit_price": 24.16,
+      "stop_price": 17.88187831482929,
+      "take_price": 39.01530447995558,
+      "status": "novo",
+      "extra_json": "{\"atr\": 2.0127072538215516, \"atr_pct\": 0.08414327957365923, \"variant\": \"trend_breakout\", \"as_of\": \"2026-09-02 00:00:00\", \"recomendacao\": \"Ordem LIMITADA de compra a R$ 24.16. Assim que executada, cadastre no homebroker uma ordem STOP de venda a R$ 17.88 (protecao) e, se possivel, um take-profit (OCO) a R$ 39.02.\"}"
+    },
+    {
+      "id": 29,
+      "created_at": "2026-09-02 21:58:25",
+      "ticker": "USIM5",
+      "alert_type": "ENTRADA",
+      "reference_price": 7.840000152587891,
+      "limit_price": 7.93,
+      "stop_price": 5.634963751814842,
+      "take_price": 13.35259115452051,
+      "status": "novo",
+      "extra_json": "{\"atr\": 0.7350121335910161, \"atr_pct\": 0.09375154582725326, \"variant\": \"trend_breakout\", \"as_of\": \"2026-09-02 00:00:00\", \"recomendacao\": \"Ordem LIMITADA de compra a R$ 7.93. Assim que executada, cadastre no homebroker uma ordem STOP de venda a R$ 5.63 (protecao) e, se possivel, um take-profit (OCO) a R$ 13.35.\"}"
+    },
+    {
+      "id": 28,
+      "created_at": "2026-09-02 21:58:14",
+      "ticker": "AXIA3",
+      "alert_type": "ENTRADA",
+      "reference_price": 55.560001373291016,
+      "limit_price": 56.11,
+      "stop_price": 41.90710862116739,
+      "take_price": 89.69223325360008,
+      "status": "novo",
+      "extra_json": "{\"atr\": 4.550964250707875, \"atr_pct\": 0.08191080162383922, \"variant\": \"trend_breakout\", \"as_of\": \"2026-09-02 00:00:00\", \"recomendacao\": \"Ordem LIMITADA de compra a R$ 56.11. Assim que executada, cadastre no homebroker uma ordem STOP de venda a R$ 41.91 (protecao) e, se possivel, um take-profit (OCO) a R$ 89.69.\"}"
+    },
     {
       "id": 27,
       "created_at": "2026-09-02 19:32:40",
