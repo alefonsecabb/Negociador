@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Negociador — Homebroker fictício</title>
+<link rel="stylesheet" href="css/style.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
+</head>
+<body>
+<div class="wrap">
+  <header class="app-header">
+    <h1>💹 Homebroker fictício</h1>
+    <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+      <a href="index.html" class="ghost-btn">← Dashboard</a>
+      <span id="last-updated">carregando...</span>
+    </div>
+  </header>
+
+  <div class="disclaimer">
+    <strong>Carteira fictícia de R$ 100.000, guardada só neste navegador.</strong> Cada sugestão de
+    ENTRADA que você marca como "Executar" no dashboard abre uma posição aqui, com uma ordem
+    <em>bracket</em> (stop + take) ativa. As saídas por stop-loss, take-profit e prazo máximo são
+    <strong>simuladas automaticamente</strong> a cada visita, usando as cotações publicadas
+    (<code>quotes.json</code>, atualizadas ~15 em 15 min) e o mesmo critério do backtest. Não há
+    servidor nem login. Como os dados vivem no <code>localStorage</code>, use <strong>Exportar</strong>
+    de vez em quando para não perder o histórico se limpar o navegador.
+  </div>
+
+  <section>
+    <h2>Ações da carteira</h2>
+    <div class="card" style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
+      <button class="ghost-btn" id="hb-export">Exportar JSON</button>
+      <button class="ghost-btn" id="hb-import">Importar JSON</button>
+      <input type="file" id="hb-import-file" accept="application/json,.json" hidden />
+      <button class="ghost-btn" id="hb-reset">Resetar carteira</button>
+      <span class="rec-text" style="margin:0;">O reset e a importação recarregam a página.</span>
+    </div>
+  </section>
+
+  <section>
+    <h2>Resumo da carteira</h2>
+    <div class="stat-row" id="hb-stat-row"></div>
+  </section>
+
+  <section>
+    <h2>Posicoes abertas — ordens bracket ativas</h2>
+    <div class="card table-scroll">
+      <table id="hb-positions-table">
+        <thead>
+          <tr>
+            <th>Ticker</th><th>Entrada</th><th class="num">Preco entrada</th>
+            <th class="num">Preco atual</th><th>Ordem bracket ativa</th>
+            <th class="num">Dias</th><th class="num">Dist. stop</th><th class="num">Dist. take</th>
+            <th class="num">P&amp;L nao realizado</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <div class="empty-state" id="hb-positions-empty" hidden>Nenhuma posicao aberta no momento.</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Ordens executadas (ledger)</h2>
+    <div class="card table-scroll">
+      <table id="hb-trades-table">
+        <thead>
+          <tr>
+            <th>Ticker</th><th>Entrada</th><th>Saida</th>
+            <th class="num">Preco entrada</th><th class="num">Preco saida</th><th class="num">Qtd</th>
+            <th>Motivo</th><th class="num">P&amp;L bruto</th><th class="num">Custos</th>
+            <th class="num">IR</th><th class="num">P&amp;L liquido</th><th class="num">Retorno</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <div class="empty-state" id="hb-trades-empty" hidden>Nenhum trade fechado ainda.</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Curva de patrimonio (ao vivo)</h2>
+    <div class="card">
+      <div class="chart-container"><canvas id="hb-equity-chart"></canvas></div>
+    </div>
+    <p class="rec-text">
+      Um ponto por dia em que você abre o dashboard/homebroker com cotações novas. Drawdown e ciclos
+      rolantes só ficam significativos depois de acumular ~30 dias de histórico.
+    </p>
+  </section>
+
+  <section>
+    <h2>Ciclos rolantes de 30 dias vs meta</h2>
+    <div class="stat-row" id="hb-cycles-stat-row"></div>
+    <div class="card">
+      <div class="chart-container"><canvas id="hb-cycles-chart"></canvas></div>
+    </div>
+  </section>
+</div>
+
+<script src="js/charts.js"></script>
+<script src="js/common.js"></script>
+<script src="js/hb_engine.js"></script>
+<script src="js/homebroker.js"></script>
+</body>
+</html>

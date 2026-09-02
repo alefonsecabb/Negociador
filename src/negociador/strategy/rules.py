@@ -105,6 +105,21 @@ def check_entry(row: pd.Series, prev_row: pd.Series, variant: str) -> bool:
     raise ValueError(f"strategy_variant desconhecida: {variant!r}")
 
 
+def fill_price_for_level(row: pd.Series, level_price: float, side: str) -> float:
+    """Preco de preenchimento realista quando um stop/take e atingido num candle.
+
+    Se o candle ABRE alem do nivel (gap), assume-se preenchimento no Open - pior
+    preco para o stop, melhor preco para o take, ambos realistas. Caso contrario,
+    preenche exatamente no nivel. Usada tanto pelo motor de backtest quanto pelo
+    monitor ao vivo (saidas automaticas), para nao haver divergencia de preco de
+    saida entre o que foi validado e o que roda ao vivo.
+    """
+    open_ = float(row["Open"])
+    if side == "stop":
+        return open_ if open_ <= level_price else level_price
+    return open_ if open_ >= level_price else level_price  # "take"
+
+
 def check_exit(
     row: pd.Series,
     stop_price: float,

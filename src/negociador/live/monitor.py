@@ -4,15 +4,19 @@ Roda 1x por invocacao (o GitHub Actions chama isso a cada ~15min durante o
 horario de pregao). A cada chamada:
 
 1. Fecha o mes de IR anterior, se aplicavel (paper_portfolio.roll_tax_month).
-2. Para cada posicao ABERTA na carteira ficticia: busca a cotacao mais
-   recente, recalcula indicadores, atualiza holding_days/stop de breakeven,
-   e verifica se stop/take/tempo foram atingidos -> gera alerta de SAIDA.
+2. Para cada posicao ABERTA na carteira ficticia (fluxo manual/CLI): busca a
+   cotacao mais recente, recalcula indicadores, atualiza holding_days/stop de
+   breakeven, e verifica se stop/take/tempo foram atingidos -> gera alerta de SAIDA.
 3. Para os demais tickers do universo (Ibovespa): verifica condicoes de
    ENTRADA -> gera alerta de ENTRADA.
+4. Devolve as cotacoes coletadas (report["quotes"]) - o CLI as grava em
+   site/data/quotes.json para o homebroker no navegador marcar a mercado e
+   simular as saidas.
 
-So GERA ALERTAS - nunca abre/fecha posicoes sozinho (isso so acontece via
-cli/confirm_execution.py, quando o usuario confirma que executou a ordem
-no homebroker).
+So GERA ALERTAS/COTACOES - nunca abre/fecha posicoes sozinho. O homebroker do
+dashboard e' 100% local (localStorage do navegador): o botao "Executar" abre a
+posicao ali na hora e o proprio navegador simula stop/take/tempo com as
+cotacoes publicadas.
 """
 from __future__ import annotations
 
@@ -75,14 +79,25 @@ def run_monitor_once(params: dict, tickers: list[str] | None = None) -> dict:
     expired_ids = pp.expire_stale_alerts(expires_after_days)
 
     open_positions = {p["ticker"]: p for p in pp.get_open_positions()}
+    quotes: dict[str, dict] = {}
     report = {
         "tax_debited_on_month_roll": tax_due,
         "alerts_expired": expired_ids,
         "alerts_created": [],
         "errors": [],
+        "quotes": quotes,
     }
 
-    # --- 1) posicoes abertas: verifica saida ---
+    def _record_quote(ticker: str, row: pd.Series, bar_date) -> None:
+        quotes[ticker] = {
+            "price": float(row["Close"]),
+            "open": float(row["Open"]),
+            "high": float(row["High"]),
+            "low": float(row["Low"]),
+            "date": str(bar_date),
+        }
+
+    # --- 1) posicoes abertas na carteira sqlite (fluxo manual/CLI): verifica saida ---
     for ticker, pos in open_positions.items():
         try:
             frame, today_bar = build_live_frame(ticker, indicator_params)
@@ -94,6 +109,7 @@ def run_monitor_once(params: dict, tickers: list[str] | None = None) -> dict:
             continue
 
         row = frame.iloc[-1]
+        _record_quote(ticker, row, today_bar["date"])
         entry_date = pd.Timestamp(pos["entry_date"])
         as_of_date = pd.Timestamp(today_bar["date"])
         holding_days = _holding_days(frame, entry_date, as_of_date)
@@ -123,7 +139,9 @@ def run_monitor_once(params: dict, tickers: list[str] | None = None) -> dict:
         if frame is None or today_bar is None or len(frame) < 2:
             continue
 
-        signal = evaluate_entry_signal(ticker, frame.iloc[-1], frame.iloc[-2], variant, risk, margin)
+        row = frame.iloc[-1]
+        _record_quote(ticker, row, today_bar["date"])
+        signal = evaluate_entry_signal(ticker, row, frame.iloc[-2], variant, risk, margin)
         if signal:
             alert_id = raise_entry_alert(signal, margin)
             if alert_id:

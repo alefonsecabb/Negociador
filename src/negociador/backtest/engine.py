@@ -23,7 +23,15 @@ import pandas as pd
 
 from negociador.backtest.costs import CostParams, TaxTracker, order_cost
 from negociador.strategy.position_sizing import PositionSizingParams, can_open_new_position, shares_to_buy
-from negociador.strategy.rules import ExitReason, RiskParams, apply_breakeven, check_entry, check_exit, compute_stop_take
+from negociador.strategy.rules import (
+    ExitReason,
+    RiskParams,
+    apply_breakeven,
+    check_entry,
+    check_exit,
+    compute_stop_take,
+    fill_price_for_level,
+)
 
 
 @dataclass
@@ -61,18 +69,6 @@ class BacktestResult:
     tax_history: list[dict]
     initial_capital: float
     final_cash: float
-
-
-def _fill_price_for_level(day_row: pd.Series, level_price: float, side: str) -> float:
-    open_ = float(day_row["Open"])
-    if side == "stop":
-        if open_ <= level_price:
-            return open_  # gap para baixo alem/no stop -> preenche no Open (pior preco)
-        return level_price
-    else:  # take
-        if open_ >= level_price:
-            return open_  # gap para cima alem do alvo -> preenche no Open (melhor preco)
-        return level_price
 
 
 def run_backtest(
@@ -147,10 +143,10 @@ def run_backtest(
 
             reason = check_exit(day_row, pos.stop_price, pos.take_price, pos.holding_days, risk.max_holding_days)
             if reason == ExitReason.STOP_LOSS:
-                fill = _fill_price_for_level(day_row, pos.stop_price, "stop")
+                fill = fill_price_for_level(day_row, pos.stop_price, "stop")
                 close_position(ticker, pos, date, fill, reason.value)
             elif reason == ExitReason.TAKE_PROFIT:
-                fill = _fill_price_for_level(day_row, pos.take_price, "take")
+                fill = fill_price_for_level(day_row, pos.take_price, "take")
                 close_position(ticker, pos, date, fill, reason.value)
             elif reason == ExitReason.TIME_EXIT:
                 close_position(ticker, pos, date, float(day_row["Close"]), reason.value)

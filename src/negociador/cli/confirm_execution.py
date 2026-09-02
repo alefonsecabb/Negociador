@@ -1,22 +1,22 @@
 """CLI: confirma ou ignora um alerta gerado pelo monitor ao vivo.
 
-So a partir de uma confirmacao a carteira ficticia (negociador.db) muda de
-estado - o monitor ao vivo (run_monitor) so gera alertas, nunca abre/fecha
-posicoes sozinho. Ignorar um alerta so descarta o alerta (nao mexe na
-carteira) e libera o ticker para um sinal novo no proximo ciclo do monitor
-(alertas 'novo' tambem expiram sozinhos apos alguns dias - ver
-config/strategy_params.yaml -> alerts.expires_after_days).
+Fluxo manual/local (o homebroker do dashboard e' 100% no navegador e nao usa
+este caminho). So a partir de uma confirmacao a carteira ficticia
+(negociador.db) muda de estado - o monitor ao vivo (run_monitor) so gera
+alertas, nunca abre/fecha posicoes sozinho. Ignorar um alerta so descarta o
+alerta (nao mexe na carteira) e libera o ticker para um sinal novo no proximo
+ciclo do monitor (alertas 'novo' tambem expiram sozinhos apos alguns dias -
+ver config/strategy_params.yaml -> alerts.expires_after_days).
 
-Dois modos de uso:
+Modos de uso:
 
-1) Direto (rodando localmente, com o computador ligado durante o expediente):
+1) Direto (rodando localmente):
        python -m negociador.cli.confirm_execution --alert-id 5
        python -m negociador.cli.confirm_execution --alert-id 5 --fill-price 42.10
        python -m negociador.cli.confirm_execution --alert-id 5 --ignore
 
-2) Via arquivo de eventos (os botoes do dashboard, pelo navegador, gravam uma
-   linha em data/events.jsonl usando a GitHub API; o workflow on_execute.yml
-   chama este mesmo script em modo --reconcile):
+2) Via arquivo de eventos data/events.jsonl (modo legado; ainda funciona se
+   voce mesmo gravar as linhas):
        python -m negociador.cli.confirm_execution --reconcile
 """
 from __future__ import annotations

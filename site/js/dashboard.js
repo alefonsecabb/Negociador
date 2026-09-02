@@ -1,78 +1,34 @@
-// Logica principal do dashboard: busca os JSONs publicados pelo GitHub Actions
-// e renderiza carteira, alertas, posicoes, watchlist e os graficos de backtest.
+// Dashboard (index.html): alertas do dia, watchlist e performance do backtest.
+// O "Executar" registra a compra na carteira do homebroker, que é 100% local
+// (localStorage, via js/hb_engine.js) — sem token, sem workflow. A carteira
+// completa (posições, caixa, trades, P&L, curva de patrimônio) fica em
+// homebroker.html.
+//
+// Helpers compartilhados em js/common.js; motor da carteira em js/hb_engine.js.
 
-const DATA_BASE = "data";
+let PARAMS = HB_FALLBACK_PARAMS;
+let QUOTES = {};
+let LAST_ALERTS = [];
+const ALERTS_BY_ID = {};
 
-async function fetchJson(path) {
-  const resp = await fetch(`${DATA_BASE}/${path}?_=${Date.now()}`);
-  if (!resp.ok) return null;
-  return resp.json();
-}
-
-function fmtBRL(v) {
-  return v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-}
-function fmtPct(v, digits = 2) {
-  if (v === null || v === undefined || Number.isNaN(v)) return "—";
-  return `${v.toFixed(digits)}%`;
-}
-
-// O sqlite grava created_at como "YYYY-MM-DD HH:MM:SS" (UTC, sem sufixo) via
-// datetime('now') - alguns navegadores (Safari) nao parseiam esse formato
-// corretamente com `new Date()`, entao normalizamos para ISO 8601 explicito.
-function parseUtcTimestamp(s) {
-  if (!s) return null;
-  const iso = s.includes("T") ? s : s.replace(" ", "T") + "Z";
-  const d = new Date(iso);
-  return Number.isNaN(d.getTime()) ? null : d;
-}
-
-function statTile(label, value, sub = "", cls = "") {
-  return `<div class="stat-tile"><div class="label">${label}</div>
-    <div class="value ${cls}">${value}</div>
-    ${sub ? `<div class="sub">${sub}</div>` : ""}</div>`;
-}
-
-function alertBadgeClass(type) {
-  if (type === "ENTRADA") return "badge-entrada";
-  if (type === "STOP_LOSS") return "badge-stop";
-  if (type === "TAKE_PROFIT") return "badge-take";
-  return "badge-tempo";
-}
-function alertLabel(type) {
-  return { ENTRADA: "ENTRADA", STOP_LOSS: "STOP-LOSS", TAKE_PROFIT: "TAKE-PROFIT", SAIDA_POR_TEMPO: "SAIDA POR TEMPO" }[type] || type;
-}
-
-async function confirmAlert(alertId, btn) {
-  btn.disabled = true;
-  btn.textContent = "Confirmando...";
-  try {
-    await ghAppendEvent(alertId, null, "confirm");
-    btn.textContent = "Confirmado! (aguarde o workflow reconciliar)";
-  } catch (err) {
-    btn.disabled = false;
-    btn.textContent = "Marquei como executado";
-    alert(`Nao foi possivel confirmar pelo navegador:\n${err.message}\n\nAlternativa: rode localmente\npython -m negociador.cli.confirm_execution --alert-id ${alertId}`);
-  }
-}
-
-async function ignoreAlert(alertId, btn) {
-  if (!confirm(`Ignorar o alerta #${alertId}? Ele some da lista e o ticker fica livre para um sinal novo no proximo ciclo.`)) return;
-  btn.disabled = true;
-  btn.textContent = "Ignorando...";
-  try {
-    await ghAppendEvent(alertId, null, "ignore");
-    btn.textContent = "Ignorado! (aguarde o workflow reconciliar)";
-  } catch (err) {
-    btn.disabled = false;
-    btn.textContent = "Ignorar";
-    alert(`Nao foi possivel ignorar pelo navegador:\n${err.message}\n\nAlternativa: rode localmente\npython -m negociador.cli.confirm_execution --alert-id ${alertId} --ignore`);
-  }
+function pendingEntryAlerts(alerts) {
+  const state = hbGetState(PARAMS);
+  const held = new Set(state.positions.map(p => p.ticker));
+  return (alerts || []).filter(a =>
+    a.status === "novo" &&
+    a.alert_type === "ENTRADA" &&
+    !state.executed_alert_ids.includes(a.id) &&
+    !state.dismissed_alert_ids.includes(a.id) &&
+    !held.has(a.ticker)
+  );
 }
 
 function renderAlerts(alerts) {
+  LAST_ALERTS = alerts || LAST_ALERTS;
   const container = document.getElementById("alerts-container");
-  const pending = (alerts || []).filter(a => a.status === "novo");
+  const pending = pendingEntryAlerts(LAST_ALERTS);
+  for (const a of pending) ALERTS_BY_ID[a.id] = a;
+
   if (!pending.length) {
     container.innerHTML = '<div class="empty-state">Nenhum alerta pendente.</div>';
     return;
@@ -89,8 +45,10 @@ function renderAlerts(alerts) {
           </div>
           <div style="display:flex; align-items:center; gap:8px;">
             <strong>Limite: R$ ${a.limit_price?.toFixed(2)}</strong>
-            <button class="ghost-btn" onclick="ignoreAlert(${a.id}, this)">Ignorar</button>
-            <button class="confirm-btn" onclick="confirmAlert(${a.id}, this)">Marquei como executado</button>
+            <span id="alert-actions-${a.id}" style="display:flex; align-items:center; gap:8px;">
+              <button class="ghost-btn" onclick="ignoreAlert(${a.id})">Ignorar</button>
+              <button class="confirm-btn" onclick="openExecForm(${a.id})">Executar</button>
+            </span>
           </div>
         </div>
         ${extra.recomendacao ? `<div class="rec-text">${extra.recomendacao}</div>` : ""}
@@ -99,57 +57,73 @@ function renderAlerts(alerts) {
   }).join("");
 }
 
-function renderPositions(positions) {
-  const tbody = document.querySelector("#positions-table tbody");
-  const emptyEl = document.getElementById("positions-empty");
-  if (!positions || !positions.length) {
-    tbody.innerHTML = "";
-    emptyEl.hidden = false;
-    return;
-  }
-  emptyEl.hidden = true;
-  tbody.innerHTML = positions.map(p => {
-    const pnlCls = p.unrealized_pnl >= 0 ? "pnl-pos" : "pnl-neg";
-    return `<tr>
-      <td><strong>${p.ticker}</strong></td>
-      <td>${p.entry_date}</td>
-      <td class="num">R$ ${p.entry_price.toFixed(2)}</td>
-      <td class="num">R$ ${(p.current_price ?? p.entry_price).toFixed(2)}</td>
-      <td class="num">R$ ${p.stop_price.toFixed(2)}</td>
-      <td class="num">R$ ${p.take_price.toFixed(2)}</td>
-      <td class="num">${p.holding_days}</td>
-      <td class="num ${pnlCls}">${fmtBRL(p.unrealized_pnl ?? 0)} (${fmtPct(p.unrealized_pnl_pct ?? 0)})</td>
-    </tr>`;
-  }).join("");
+function ignoreAlert(alertId) {
+  const state = hbGetState(PARAMS);
+  if (!state.dismissed_alert_ids.includes(alertId)) state.dismissed_alert_ids.push(alertId);
+  hbSaveState(state);
+  renderAlerts();
+  renderLiveSummary();
 }
 
-function renderWatchlist(universeTickers, alerts, positions) {
+function openExecForm(alertId) {
+  const a = ALERTS_BY_ID[alertId];
+  const slot = document.getElementById(`alert-actions-${alertId}`);
+  if (!a || !slot) return;
+  const state = hbGetState(PARAMS);
+  const suggestedQty = hbSharesToBuy(
+    hbEquity(state, QUOTES), state.cash, a.limit_price, a.stop_price, PARAMS.position_sizing,
+  );
+  slot.innerHTML = `
+    <label style="font-size:12px; color:var(--text-secondary);">Preço
+      <input id="exec-price-${alertId}" type="number" step="0.01" value="${a.limit_price.toFixed(2)}"
+        style="width:78px; font-size:12px; padding:4px 6px; border:1px solid var(--border); border-radius:6px; background:var(--surface-2); color:var(--text-primary);" />
+    </label>
+    <label style="font-size:12px; color:var(--text-secondary);">Qtd
+      <input id="exec-qty-${alertId}" type="number" step="1" min="1" value="${suggestedQty}"
+        style="width:66px; font-size:12px; padding:4px 6px; border:1px solid var(--border); border-radius:6px; background:var(--surface-2); color:var(--text-primary);" />
+    </label>
+    <button class="confirm-btn" onclick="submitExec(${alertId})">Confirmar</button>
+    <button class="ghost-btn" onclick="renderAlerts()">Cancelar</button>`;
+}
+
+function submitExec(alertId) {
+  const a = ALERTS_BY_ID[alertId];
+  if (!a) return;
+  const price = parseFloat(document.getElementById(`exec-price-${alertId}`).value);
+  const qty = parseInt(document.getElementById(`exec-qty-${alertId}`).value, 10);
+  const state = hbGetState(PARAMS);
+  const res = hbOpenPosition(state, a, PARAMS, { entryPrice: price, qty, quotes: QUOTES });
+  if (!res.ok) { window.alert(res.error); return; }
+  renderAlerts();
+  renderLiveSummary();
+}
+
+function renderWatchlist(universeTickers, alerts) {
   const tbody = document.querySelector("#watchlist-table tbody");
-  const positionTickers = new Set((positions || []).map(p => p.ticker));
-  const alertTickers = new Map((alerts || []).filter(a => a.status === "novo").map(a => [a.ticker, a.alert_type]));
+  const held = new Set(hbGetState(PARAMS).positions.map(p => p.ticker));
+  const alertTickers = new Map(pendingEntryAlerts(alerts).map(a => [a.ticker, a.alert_type]));
 
   const rows = (universeTickers || []).map(t => {
     let status = "monitorando";
     let cls = "";
-    if (positionTickers.has(t)) { status = "EM POSICAO"; cls = "badge-take"; }
+    if (held.has(t)) { status = "EM POSICAO"; cls = "badge-take"; }
     else if (alertTickers.has(t)) { status = `ALERTA: ${alertLabel(alertTickers.get(t))}`; cls = "badge-entrada"; }
     return { t, status, cls };
   });
-  // prioriza quem tem posicao/alerta no topo
   rows.sort((a, b) => (b.cls ? 1 : 0) - (a.cls ? 1 : 0) || a.t.localeCompare(b.t));
-
   tbody.innerHTML = rows.map(r => `<tr><td>${r.t}</td><td>${r.cls ? `<span class="badge ${r.cls}">${r.status}</span>` : r.status}</td></tr>`).join("");
 }
 
-function renderPortfolioStats(portfolio) {
+function renderLiveSummary() {
   const row = document.getElementById("stat-row");
-  const retornoCls = portfolio.retorno_total_pct >= 0 ? "good" : "bad";
+  const state = hbGetState(PARAMS);
+  const m = hbComputeMetrics(state, PARAMS, QUOTES);
+  const nPending = pendingEntryAlerts(LAST_ALERTS).length;
+  const retornoCls = m.retorno_total_pct >= 0 ? "good" : "bad";
   row.innerHTML = [
-    statTile("Patrimonio", fmtBRL(portfolio.equity), `Capital inicial: ${fmtBRL(portfolio.capital_inicial)}`),
-    statTile("Caixa disponivel", fmtBRL(portfolio.cash)),
-    statTile("Retorno total", fmtPct(portfolio.retorno_total_pct), "", retornoCls),
-    statTile("Posicoes abertas", (portfolio.positions || []).length),
-    statTile("Trades fechados", portfolio.n_trades_fechados ?? 0),
+    statTile("Posicoes abertas", `<a href="homebroker.html" style="color:inherit;">${m.n_open_positions}</a>`, "detalhe no homebroker"),
+    statTile("Alertas pendentes", nPending),
+    statTile("Retorno total (ao vivo)", fmtPct(m.retorno_total_pct), "carteira ficticia local", retornoCls),
   ].join("");
 }
 
@@ -175,23 +149,30 @@ function renderBacktestStats(backtestReport, walkForward) {
 }
 
 async function main() {
-  const [portfolio, alertsData, backtestData, universeData] = await Promise.all([
-    fetchJson("portfolio.json"),
+  const [alertsData, backtestData, universeData, paramsData, quotesData] = await Promise.all([
     fetchJson("alerts.json"),
     fetchJson("backtest.json"),
     fetchJson("universe.json"),
+    fetchJson("params.json"),
+    fetchJson("quotes.json"),
   ]);
 
-  const genAt = portfolio?.generated_at || alertsData?.generated_at;
+  PARAMS = paramsData || HB_FALLBACK_PARAMS;
+  QUOTES = quotesData?.quotes || {};
+  LAST_ALERTS = alertsData?.alerts || [];
+
+  // roda a simulação local (saídas por stop/take/tempo, IR, ponto de patrimônio)
+  // com as cotações atuais — assim ela avança mesmo se você só abrir o dashboard
+  hbMarkToMarket(hbGetState(PARAMS), QUOTES, PARAMS);
+
+  const genAt = quotesData?.generated_at || alertsData?.generated_at;
   document.getElementById("last-updated").textContent = genAt
     ? `ultima atualizacao: ${new Date(genAt).toLocaleString("pt-BR")}`
     : "sem dados publicados ainda";
 
-  if (portfolio) renderPortfolioStats(portfolio);
-  const alerts = alertsData?.alerts || [];
-  renderAlerts(alerts);
-  renderPositions(portfolio?.positions);
-  renderWatchlist(universeData?.tickers, alerts, portfolio?.positions);
+  renderLiveSummary();
+  renderAlerts();
+  renderWatchlist(universeData?.tickers, LAST_ALERTS);
 
   const backtestReport = backtestData?.backtest;
   renderBacktestStats(backtestReport, backtestData?.walk_forward);
@@ -199,21 +180,6 @@ async function main() {
     renderEquityChart("equity-chart", backtestReport.series.equity_curve);
     renderCyclesChart("cycles-chart", backtestReport.series.cycle_returns_pct, backtestReport.meta_por_ciclo_pct);
   }
-
-  // configuracao do token do GitHub (confirmar execucao pelo navegador)
-  const tokenInput = document.getElementById("gh-token-input");
-  const tokenStatus = document.getElementById("gh-token-status");
-  const existing = ghGetToken();
-  if (existing) tokenStatus.textContent = "token salvo neste navegador.";
-  document.getElementById("gh-token-save").onclick = () => {
-    ghSetToken(tokenInput.value.trim());
-    tokenInput.value = "";
-    tokenStatus.textContent = "token salvo neste navegador.";
-  };
-  document.getElementById("gh-token-clear").onclick = () => {
-    ghSetToken("");
-    tokenStatus.textContent = "token removido.";
-  };
 }
 
 main().catch(err => {

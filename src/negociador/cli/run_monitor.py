@@ -11,6 +11,7 @@ import logging
 
 from negociador.config import load_strategy_params
 from negociador.live.monitor import run_monitor_once
+from negociador.live.publish_site_data import publish_quotes
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 
@@ -22,6 +23,9 @@ def main() -> None:
 
     params = load_strategy_params()
     report = run_monitor_once(params, tickers=args.tickers)
+
+    publish_quotes(report.get("quotes", {}))
+    print(f"{len(report.get('quotes', {}))} cotacao(oes) publicada(s) em site/data/quotes.json")
 
     if report["tax_debited_on_month_roll"]:
         print(f"IR do mes anterior debitado da carteira: R$ {report['tax_debited_on_month_roll']:,.2f}")

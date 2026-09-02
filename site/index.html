@@ -11,7 +11,10 @@
 <div class="wrap">
   <header class="app-header">
     <h1>📈 Negociador — swing trade B3</h1>
-    <span id="last-updated">carregando...</span>
+    <div style="display:flex; align-items:center; gap:12px;">
+      <a href="homebroker.html" class="ghost-btn">Homebroker fictício →</a>
+      <span id="last-updated">carregando...</span>
+    </div>
   </header>
 
   <div class="disclaimer">
@@ -30,23 +33,6 @@
     <h2>Alertas do dia</h2>
     <div class="card">
       <div id="alerts-container"></div>
-    </div>
-  </section>
-
-  <section>
-    <h2>Posicoes abertas</h2>
-    <div class="card table-scroll">
-      <table id="positions-table">
-        <thead>
-          <tr>
-            <th>Ticker</th><th>Entrada</th><th class="num">Preco entrada</th>
-            <th class="num">Preco atual</th><th class="num">Stop</th><th class="num">Take</th>
-            <th class="num">Dias</th><th class="num">P&amp;L</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-      <div class="empty-state" id="positions-empty" hidden>Nenhuma posicao aberta no momento.</div>
     </div>
   </section>
 
@@ -73,28 +59,24 @@
   </section>
 
   <section>
-    <h2>Confirmar execucao pelo navegador (opcional)</h2>
+    <h2>Como funciona o "Executar"</h2>
     <div class="card">
       <p class="rec-text">
-        Por padrao, confirme as ordens executadas rodando localmente
-        <code>python -m negociador.cli.confirm_execution --alert-id N</code> e dando <code>git push</code>.
-        Se preferir confirmar tambem pelo celular/navegador, cole aqui um GitHub
-        <em>fine-grained personal access token</em> com acesso restrito a este
-        repositorio e permissao apenas de <code>contents: write</code> (crie em
-        github.com/settings/tokens). Ele fica salvo so no localStorage deste navegador.
+        Ao clicar em <strong>Executar</strong> num alerta de ENTRADA, você ajusta o preço e a
+        quantidade e a compra é registrada na hora na <a href="homebroker.html">carteira do
+        homebroker</a> — que roda 100% neste navegador (nada é enviado a nenhum servidor, não
+        precisa de login nem token). <strong>Ignorar</strong> só descarta a sugestão. As saídas
+        (stop / take / prazo) são simuladas automaticamente pelo homebroker a cada visita, com as
+        cotações publicadas. Faça <strong>Exportar JSON</strong> no homebroker de vez em quando
+        para ter um backup do histórico.
       </p>
-      <div class="token-setup">
-        <input type="password" id="gh-token-input" placeholder="github_pat_..." />
-        <button class="ghost-btn" id="gh-token-save">Salvar token</button>
-        <button class="ghost-btn" id="gh-token-clear">Remover</button>
-        <span id="gh-token-status"></span>
-      </div>
     </div>
   </section>
 </div>
 
 <script src="js/charts.js"></script>
-<script src="js/github_write.js"></script>
+<script src="js/common.js"></script>
+<script src="js/hb_engine.js"></script>
 <script src="js/dashboard.js"></script>
 </body>
 </html>
