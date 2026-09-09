@@ -1,6 +1,18 @@
 {
-  "generated_at": "2026-09-09T19:32:42.403404",
+  "generated_at": "2026-09-09T21:57:02.790323",
   "alerts": [
+    {
+      "id": 49,
+      "created_at": "2026-09-09 21:56:45",
+      "ticker": "CMIN3",
+      "alert_type": "ENTRADA",
+      "reference_price": 6.929999828338623,
+      "limit_price": 6.99,
+      "stop_price": 5.3316504954597015,
+      "take_price": 10.925873160535927,
+      "status": "novo",
+      "extra_json": "{\"atr\": 0.5327831109596406, \"atr_pct\": 0.07688068169654896, \"variant\": \"trend_breakout\", \"as_of\": \"2026-09-09 00:00:00\", \"recomendacao\": \"Ordem LIMITADA de compra a R$ 6.99. Assim que executada, cadastre no homebroker uma ordem STOP de venda a R$ 5.33 (protecao) e, se possivel, um take-profit (OCO) a R$ 10.93.\"}"
+    },
     {
       "id": 48,
       "created_at": "2026-09-09 16:55:27",
