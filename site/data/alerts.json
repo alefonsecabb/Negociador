@@ -1,6 +1,30 @@
 {
-  "generated_at": "2026-09-10T16:43:56.911979",
+  "generated_at": "2026-09-10T19:16:25.789748",
   "alerts": [
+    {
+      "id": 51,
+      "created_at": "2026-09-10 19:16:20",
+      "ticker": "PETR3",
+      "alert_type": "ENTRADA",
+      "reference_price": 54.900001525878906,
+      "limit_price": 55.29,
+      "stop_price": 45.10446282610744,
+      "take_price": 79.38884827530758,
+      "status": "novo",
+      "extra_json": "{\"atr\": 3.2651795665904895, \"atr_pct\": 0.05947503598977753, \"variant\": \"trend_breakout\", \"as_of\": \"2026-09-10 00:00:00\", \"recomendacao\": \"Ordem LIMITADA de compra a R$ 55.29. Assim que executada, cadastre no homebroker uma ordem STOP de venda a R$ 45.10 (protecao) e, se possivel, um take-profit (OCO) a R$ 79.39.\"}"
+    },
+    {
+      "id": 50,
+      "created_at": "2026-09-10 19:16:11",
+      "ticker": "ASAI3",
+      "alert_type": "ENTRADA",
+      "reference_price": 9.6899995803833,
+      "limit_price": 9.78,
+      "stop_price": 7.479934112807131,
+      "take_price": 15.215163249323727,
+      "status": "novo",
+      "extra_json": "{\"atr\": 0.7366884891920568, \"atr_pct\": 0.07602564717169122, \"variant\": \"trend_breakout\", \"as_of\": \"2026-09-10 00:00:00\", \"recomendacao\": \"Ordem LIMITADA de compra a R$ 9.78. Assim que executada, cadastre no homebroker uma ordem STOP de venda a R$ 7.48 (protecao) e, se possivel, um take-profit (OCO) a R$ 15.22.\"}"
+    },
     {
       "id": 49,
       "created_at": "2026-09-09 21:56:45",
