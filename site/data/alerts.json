@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-11T16:47:56.768296",
+  "generated_at": "2026-09-11T19:21:21.991548",
   "alerts": [
     {
       "id": 54,
@@ -82,7 +82,7 @@
       "limit_price": 18.13,
       "stop_price": 14.437143302971787,
       "take_price": 26.872140941484105,
-      "status": "novo",
+      "status": "expirado",
       "extra_json": "{\"atr\": 1.1842854893821257, \"atr_pct\": 0.06583021147579018, \"variant\": \"trend_breakout\", \"as_of\": \"2026-09-09 00:00:00\", \"recomendacao\": \"Ordem LIMITADA de compra a R$ 18.13. Assim que executada, cadastre no homebroker uma ordem STOP de venda a R$ 14.44 (protecao) e, se possivel, um take-profit (OCO) a R$ 26.87.\"}"
     },
     {
