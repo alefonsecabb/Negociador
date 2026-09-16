@@ -1,6 +1,18 @@
 {
-  "generated_at": "2026-09-16T17:20:17.025512",
+  "generated_at": "2026-09-16T20:16:28.995639",
   "alerts": [
+    {
+      "id": 56,
+      "created_at": "2026-09-16 20:16:17",
+      "ticker": "ASAI3",
+      "alert_type": "ENTRADA",
+      "reference_price": 10.109999656677246,
+      "limit_price": 10.19,
+      "stop_price": 8.168214305363902,
+      "take_price": 14.964463034960605,
+      "status": "novo",
+      "extra_json": "{\"atr\": 0.6472617837711145, \"atr_pct\": 0.06402193924345233, \"variant\": \"trend_breakout\", \"as_of\": \"2026-09-16 00:00:00\", \"recomendacao\": \"Ordem LIMITADA de compra a R$ 10.19. Assim que executada, cadastre no homebroker uma ordem STOP de venda a R$ 8.17 (protecao) e, se possivel, um take-profit (OCO) a R$ 14.96.\"}"
+    },
     {
       "id": 55,
       "created_at": "2026-09-15 20:19:12",
