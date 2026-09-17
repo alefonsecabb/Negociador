@@ -1,6 +1,18 @@
 {
-  "generated_at": "2026-09-17T17:19:17.917771",
+  "generated_at": "2026-09-17T20:25:10.258820",
   "alerts": [
+    {
+      "id": 57,
+      "created_at": "2026-09-17 20:25:07",
+      "ticker": "VBBR3",
+      "alert_type": "ENTRADA",
+      "reference_price": 39.349998474121094,
+      "limit_price": 39.58,
+      "stop_price": 33.521648761127175,
+      "take_price": 53.92087275660589,
+      "status": "novo",
+      "extra_json": "{\"atr\": 1.9427832376646392, \"atr_pct\": 0.04937187580686513, \"variant\": \"trend_breakout\", \"as_of\": \"2026-09-17 00:00:00\", \"recomendacao\": \"Ordem LIMITADA de compra a R$ 39.58. Assim que executada, cadastre no homebroker uma ordem STOP de venda a R$ 33.52 (protecao) e, se possivel, um take-profit (OCO) a R$ 53.92.\"}"
+    },
     {
       "id": 56,
       "created_at": "2026-09-16 20:16:17",
@@ -22,7 +34,7 @@
       "limit_price": 66.01,
       "stop_price": 53.912751153341,
       "take_price": 94.60812532099321,
-      "status": "novo",
+      "status": "expirado",
       "extra_json": "{\"atr\": 3.8757499207287824, \"atr_pct\": 0.059135640320239345, \"variant\": \"trend_breakout\", \"as_of\": \"2026-09-15 00:00:00\", \"recomendacao\": \"Ordem LIMITADA de compra a R$ 66.01. Assim que executada, cadastre no homebroker uma ordem STOP de venda a R$ 53.91 (protecao) e, se possivel, um take-profit (OCO) a R$ 94.61.\"}"
     },
     {
