@@ -1,6 +1,18 @@
 {
-  "generated_at": "2026-09-18T21:45:33.911193",
+  "generated_at": "2026-09-21T18:21:21.641675",
   "alerts": [
+    {
+      "id": 58,
+      "created_at": "2026-09-21 18:21:14",
+      "ticker": "HYPE3",
+      "alert_type": "ENTRADA",
+      "reference_price": 24.15999984741211,
+      "limit_price": 24.3,
+      "stop_price": 20.64485063644095,
+      "take_price": 32.94787287484001,
+      "status": "novo",
+      "extra_json": "{\"atr\": 1.1717164036570535, \"atr_pct\": 0.04849819582190774, \"variant\": \"trend_breakout\", \"as_of\": \"2026-09-21 00:00:00\", \"recomendacao\": \"Ordem LIMITADA de compra a R$ 24.30. Assim que executada, cadastre no homebroker uma ordem STOP de venda a R$ 20.64 (protecao) e, se possivel, um take-profit (OCO) a R$ 32.95.\"}"
+    },
     {
       "id": 57,
       "created_at": "2026-09-17 20:25:07",
@@ -10,7 +22,7 @@
       "limit_price": 39.58,
       "stop_price": 33.521648761127175,
       "take_price": 53.92087275660589,
-      "status": "novo",
+      "status": "expirado",
       "extra_json": "{\"atr\": 1.9427832376646392, \"atr_pct\": 0.04937187580686513, \"variant\": \"trend_breakout\", \"as_of\": \"2026-09-17 00:00:00\", \"recomendacao\": \"Ordem LIMITADA de compra a R$ 39.58. Assim que executada, cadastre no homebroker uma ordem STOP de venda a R$ 33.52 (protecao) e, se possivel, um take-profit (OCO) a R$ 53.92.\"}"
     },
     {
