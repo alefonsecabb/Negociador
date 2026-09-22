@@ -1,6 +1,18 @@
 {
-  "generated_at": "2026-09-22T17:22:57.488484",
+  "generated_at": "2026-09-22T20:16:40.755085",
   "alerts": [
+    {
+      "id": 64,
+      "created_at": "2026-09-22 20:16:36",
+      "ticker": "RAIL3",
+      "alert_type": "ENTRADA",
+      "reference_price": 15.6899995803833,
+      "limit_price": 15.78,
+      "stop_price": 13.367267768160852,
+      "take_price": 21.496829110939423,
+      "status": "novo",
+      "extra_json": "{\"atr\": 0.774243937407483, \"atr_pct\": 0.049346332575782546, \"variant\": \"trend_breakout\", \"as_of\": \"2026-09-22 00:00:00\", \"recomendacao\": \"Ordem LIMITADA de compra a R$ 15.78. Assim que executada, cadastre no homebroker uma ordem STOP de venda a R$ 13.37 (protecao) e, se possivel, um take-profit (OCO) a R$ 21.50.\"}"
+    },
     {
       "id": 63,
       "created_at": "2026-09-21 22:04:58",
