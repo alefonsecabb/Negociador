@@ -1,6 +1,30 @@
 {
-  "generated_at": "2026-09-23T17:31:45.921248",
+  "generated_at": "2026-09-23T20:40:34.933845",
   "alerts": [
+    {
+      "id": 66,
+      "created_at": "2026-09-23 20:40:33",
+      "ticker": "VAMO3",
+      "alert_type": "ENTRADA",
+      "reference_price": 3.7799999713897705,
+      "limit_price": 3.81,
+      "stop_price": 3.0571818203828407,
+      "take_price": 5.587045348907095,
+      "status": "novo",
+      "extra_json": "{\"atr\": 0.2409393836689766, \"atr_pct\": 0.06374057817264793, \"variant\": \"trend_breakout\", \"as_of\": \"2026-09-23 00:00:00\", \"recomendacao\": \"Ordem LIMITADA de compra a R$ 3.81. Assim que executada, cadastre no homebroker uma ordem STOP de venda a R$ 3.06 (protecao) e, se possivel, um take-profit (OCO) a R$ 5.59.\"}"
+    },
+    {
+      "id": 65,
+      "created_at": "2026-09-23 20:40:33",
+      "ticker": "UGPA3",
+      "alert_type": "ENTRADA",
+      "reference_price": 39.77000045776367,
+      "limit_price": 39.97,
+      "stop_price": 34.69082391896529,
+      "take_price": 52.46794180475962,
+      "status": "novo",
+      "extra_json": "{\"atr\": 1.6930588462661262, \"atr_pct\": 0.042571255387944484, \"variant\": \"trend_breakout\", \"as_of\": \"2026-09-23 00:00:00\", \"recomendacao\": \"Ordem LIMITADA de compra a R$ 39.97. Assim que executada, cadastre no homebroker uma ordem STOP de venda a R$ 34.69 (protecao) e, se possivel, um take-profit (OCO) a R$ 52.47.\"}"
+    },
     {
       "id": 64,
       "created_at": "2026-09-22 20:16:36",
@@ -82,7 +106,7 @@
       "limit_price": 24.3,
       "stop_price": 20.64485063644095,
       "take_price": 32.94787287484001,
-      "status": "novo",
+      "status": "expirado",
       "extra_json": "{\"atr\": 1.1717164036570535, \"atr_pct\": 0.04849819582190774, \"variant\": \"trend_breakout\", \"as_of\": \"2026-09-21 00:00:00\", \"recomendacao\": \"Ordem LIMITADA de compra a R$ 24.30. Assim que executada, cadastre no homebroker uma ordem STOP de venda a R$ 20.64 (protecao) e, se possivel, um take-profit (OCO) a R$ 32.95.\"}"
     },
     {
