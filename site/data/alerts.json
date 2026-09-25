@@ -1,6 +1,30 @@
 {
-  "generated_at": "2026-09-25T17:36:12.224676",
+  "generated_at": "2026-09-25T20:44:47.516010",
   "alerts": [
+    {
+      "id": 69,
+      "created_at": "2026-09-25 20:44:38",
+      "ticker": "MGLU3",
+      "alert_type": "ENTRADA",
+      "reference_price": 6.71999979019165,
+      "limit_price": 6.77,
+      "stop_price": 5.397213523148354,
+      "take_price": 10.026965457799893,
+      "status": "novo",
+      "extra_json": "{\"atr\": 0.4409287556810989, \"atr_pct\": 0.06561440021540892, \"variant\": \"trend_breakout\", \"as_of\": \"2026-09-25 00:00:00\", \"recomendacao\": \"Ordem LIMITADA de compra a R$ 6.77. Assim que executada, cadastre no homebroker uma ordem STOP de venda a R$ 5.40 (protecao) e, se possivel, um take-profit (OCO) a R$ 10.03.\"}"
+    },
+    {
+      "id": 68,
+      "created_at": "2026-09-25 20:44:28",
+      "ticker": "AURE3",
+      "alert_type": "ENTRADA",
+      "reference_price": 12.819999694824219,
+      "limit_price": 12.89,
+      "stop_price": 11.132257636877464,
+      "take_price": 17.039354839691107,
+      "status": "novo",
+      "extra_json": "{\"atr\": 0.5625806859822516, \"atr_pct\": 0.04388304987318999, \"variant\": \"trend_breakout\", \"as_of\": \"2026-09-25 00:00:00\", \"recomendacao\": \"Ordem LIMITADA de compra a R$ 12.89. Assim que executada, cadastre no homebroker uma ordem STOP de venda a R$ 11.13 (protecao) e, se possivel, um take-profit (OCO) a R$ 17.04.\"}"
+    },
     {
       "id": 67,
       "created_at": "2026-09-24 20:46:26",
@@ -22,7 +46,7 @@
       "limit_price": 3.81,
       "stop_price": 3.0571818203828407,
       "take_price": 5.587045348907095,
-      "status": "novo",
+      "status": "expirado",
       "extra_json": "{\"atr\": 0.2409393836689766, \"atr_pct\": 0.06374057817264793, \"variant\": \"trend_breakout\", \"as_of\": \"2026-09-23 00:00:00\", \"recomendacao\": \"Ordem LIMITADA de compra a R$ 3.81. Assim que executada, cadastre no homebroker uma ordem STOP de venda a R$ 3.06 (protecao) e, se possivel, um take-profit (OCO) a R$ 5.59.\"}"
     },
     {
@@ -34,7 +58,7 @@
       "limit_price": 39.97,
       "stop_price": 34.69082391896529,
       "take_price": 52.46794180475962,
-      "status": "novo",
+      "status": "expirado",
       "extra_json": "{\"atr\": 1.6930588462661262, \"atr_pct\": 0.042571255387944484, \"variant\": \"trend_breakout\", \"as_of\": \"2026-09-23 00:00:00\", \"recomendacao\": \"Ordem LIMITADA de compra a R$ 39.97. Assim que executada, cadastre no homebroker uma ordem STOP de venda a R$ 34.69 (protecao) e, se possivel, um take-profit (OCO) a R$ 52.47.\"}"
     },
     {
