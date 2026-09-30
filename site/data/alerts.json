@@ -1,6 +1,78 @@
 {
-  "generated_at": "2026-09-29T22:26:26.063264",
+  "generated_at": "2026-09-30T18:10:25.498816",
   "alerts": [
+    {
+      "id": 75,
+      "created_at": "2026-09-30 18:10:21",
+      "ticker": "RENT3",
+      "alert_type": "ENTRADA",
+      "reference_price": 40.540000915527344,
+      "limit_price": 41.05,
+      "stop_price": 27.843290950424567,
+      "take_price": 72.28177582828428,
+      "status": "novo",
+      "extra_json": "{\"atr\": 4.232236655034258, \"atr_pct\": 0.10439656042072898, \"variant\": \"trend_breakout\", \"as_of\": \"2026-09-30 00:00:00\", \"recomendacao\": \"Ordem LIMITADA de compra a R$ 41.05. Assim que executada, cadastre no homebroker uma ordem STOP de venda a R$ 27.84 (protecao) e, se possivel, um take-profit (OCO) a R$ 72.28.\"}"
+    },
+    {
+      "id": 74,
+      "created_at": "2026-09-30 18:10:19",
+      "ticker": "MOTV3",
+      "alert_type": "ENTRADA",
+      "reference_price": 16.8799991607666,
+      "limit_price": 17.07,
+      "stop_price": 12.007831703353844,
+      "take_price": 29.060417804298496,
+      "status": "novo",
+      "extra_json": "{\"atr\": 1.6240558191375858, \"atr_pct\": 0.0962118424100579, \"variant\": \"trend_breakout\", \"as_of\": \"2026-09-30 00:00:00\", \"recomendacao\": \"Ordem LIMITADA de compra a R$ 17.07. Assim que executada, cadastre no homebroker uma ordem STOP de venda a R$ 12.01 (protecao) e, se possivel, um take-profit (OCO) a R$ 29.06.\"}"
+    },
+    {
+      "id": 73,
+      "created_at": "2026-09-30 18:10:19",
+      "ticker": "MGLU3",
+      "alert_type": "ENTRADA",
+      "reference_price": 7.320000171661377,
+      "limit_price": 7.42,
+      "stop_price": 4.804264886992884,
+      "take_price": 13.609338383332606,
+      "status": "novo",
+      "extra_json": "{\"atr\": 0.8385784282228307, \"atr_pct\": 0.11455989187941557, \"variant\": \"trend_breakout\", \"as_of\": \"2026-09-30 00:00:00\", \"recomendacao\": \"Ordem LIMITADA de compra a R$ 7.42. Assim que executada, cadastre no homebroker uma ordem STOP de venda a R$ 4.80 (protecao) e, se possivel, um take-profit (OCO) a R$ 13.61.\"}"
+    },
+    {
+      "id": 72,
+      "created_at": "2026-09-30 18:10:18",
+      "ticker": "ITUB4",
+      "alert_type": "ENTRADA",
+      "reference_price": 44.5099983215332,
+      "limit_price": 45.0,
+      "stop_price": 32.16231757095562,
+      "take_price": 75.37920019797716,
+      "status": "novo",
+      "extra_json": "{\"atr\": 4.115893583525859, \"atr_pct\": 0.09247121408078458, \"variant\": \"trend_breakout\", \"as_of\": \"2026-09-30 00:00:00\", \"recomendacao\": \"Ordem LIMITADA de compra a R$ 45.00. Assim que executada, cadastre no homebroker uma ordem STOP de venda a R$ 32.16 (protecao) e, se possivel, um take-profit (OCO) a R$ 75.38.\"}"
+    },
+    {
+      "id": 71,
+      "created_at": "2026-09-30 18:10:18",
+      "ticker": "ITSA4",
+      "alert_type": "ENTRADA",
+      "reference_price": 14.720000267028809,
+      "limit_price": 14.88,
+      "stop_price": 10.69446479238496,
+      "take_price": 24.78383895363843,
+      "status": "novo",
+      "extra_json": "{\"atr\": 1.3418451582146163, \"atr_pct\": 0.09115795746418584, \"variant\": \"trend_breakout\", \"as_of\": \"2026-09-30 00:00:00\", \"recomendacao\": \"Ordem LIMITADA de compra a R$ 14.88. Assim que executada, cadastre no homebroker uma ordem STOP de venda a R$ 10.69 (protecao) e, se possivel, um take-profit (OCO) a R$ 24.78.\"}"
+    },
+    {
+      "id": 70,
+      "created_at": "2026-09-30 18:10:13",
+      "ticker": "CEAB3",
+      "alert_type": "ENTRADA",
+      "reference_price": 10.09000015258789,
+      "limit_price": 10.22,
+      "stop_price": 6.876385291852886,
+      "take_price": 18.124037304425404,
+      "status": "novo",
+      "extra_json": "{\"atr\": 1.071204953578335, \"atr_pct\": 0.10616500865994452, \"variant\": \"trend_breakout\", \"as_of\": \"2026-09-30 00:00:00\", \"recomendacao\": \"Ordem LIMITADA de compra a R$ 10.22. Assim que executada, cadastre no homebroker uma ordem STOP de venda a R$ 6.88 (protecao) e, se possivel, um take-profit (OCO) a R$ 18.12.\"}"
+    },
     {
       "id": 69,
       "created_at": "2026-09-25 20:44:38",
