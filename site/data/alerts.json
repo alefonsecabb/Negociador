@@ -1,6 +1,42 @@
 {
-  "generated_at": "2026-09-30T22:11:43.884043",
+  "generated_at": "2026-10-01T18:36:30.628606",
   "alerts": [
+    {
+      "id": 81,
+      "created_at": "2026-10-01 18:36:29",
+      "ticker": "VAMO3",
+      "alert_type": "ENTRADA",
+      "reference_price": 4.489999771118164,
+      "limit_price": 4.54,
+      "stop_price": 3.1472023416793045,
+      "take_price": 7.8469933447153135,
+      "status": "novo",
+      "extra_json": "{\"atr\": 0.4475991431462865, \"atr_pct\": 0.09968801023676199, \"variant\": \"trend_breakout\", \"as_of\": \"2026-10-01 00:00:00\", \"recomendacao\": \"Ordem LIMITADA de compra a R$ 4.54. Assim que executada, cadastre no homebroker uma ordem STOP de venda a R$ 3.15 (protecao) e, se possivel, um take-profit (OCO) a R$ 7.85.\"}"
+    },
+    {
+      "id": 80,
+      "created_at": "2026-10-01 18:36:22",
+      "ticker": "IGTI11",
+      "alert_type": "ENTRADA",
+      "reference_price": 27.3799991607666,
+      "limit_price": 27.68,
+      "stop_price": 19.79789997482627,
+      "take_price": 46.33524712561743,
+      "status": "novo",
+      "extra_json": "{\"atr\": 2.527366395313444, \"atr_pct\": 0.09230702968519307, \"variant\": \"trend_breakout\", \"as_of\": \"2026-10-01 00:00:00\", \"recomendacao\": \"Ordem LIMITADA de compra a R$ 27.68. Assim que executada, cadastre no homebroker uma ordem STOP de venda a R$ 19.80 (protecao) e, se possivel, um take-profit (OCO) a R$ 46.34.\"}"
+    },
+    {
+      "id": 79,
+      "created_at": "2026-10-01 18:36:17",
+      "ticker": "AZZA3",
+      "alert_type": "ENTRADA",
+      "reference_price": 18.700000762939453,
+      "limit_price": 18.95,
+      "stop_price": 12.325304139424063,
+      "take_price": 34.63674232172793,
+      "status": "novo",
+      "extra_json": "{\"atr\": 2.1248988745051305, \"atr_pct\": 0.11363095121987138, \"variant\": \"trend_breakout\", \"as_of\": \"2026-10-01 00:00:00\", \"recomendacao\": \"Ordem LIMITADA de compra a R$ 18.95. Assim que executada, cadastre no homebroker uma ordem STOP de venda a R$ 12.33 (protecao) e, se possivel, um take-profit (OCO) a R$ 34.64.\"}"
+    },
     {
       "id": 78,
       "created_at": "2026-09-30 22:11:36",
