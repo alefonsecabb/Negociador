@@ -1,6 +1,78 @@
 {
-  "generated_at": "2026-10-06T18:40:28.374306",
+  "generated_at": "2026-10-06T22:47:27.003376",
   "alerts": [
+    {
+      "id": 150,
+      "created_at": "2026-10-06 22:47:26",
+      "ticker": "YDUQ3",
+      "alert_type": "ENTRADA",
+      "reference_price": 13.09000015258789,
+      "limit_price": 13.3,
+      "stop_price": 7.720073362197582,
+      "take_price": 26.514817128563664,
+      "status": "novo",
+      "extra_json": "{\"atr\": 1.7899755967967694, \"atr_pct\": 0.1367437414768014, \"variant\": \"trend_breakout\", \"as_of\": \"2026-10-06 00:00:00\", \"recomendacao\": \"Ordem LIMITADA de compra a R$ 13.30. Assim que executada, cadastre no homebroker uma ordem STOP de venda a R$ 7.72 (protecao) e, se possivel, um take-profit (OCO) a R$ 26.51.\"}"
+    },
+    {
+      "id": 149,
+      "created_at": "2026-10-06 22:47:25",
+      "ticker": "TOTS3",
+      "alert_type": "ENTRADA",
+      "reference_price": 38.41999816894531,
+      "limit_price": 39.08,
+      "stop_price": 21.80560729870454,
+      "take_price": 79.95597534454724,
+      "status": "novo",
+      "extra_json": "{\"atr\": 5.538130290080257, \"atr_pct\": 0.14414707324366038, \"variant\": \"trend_breakout\", \"as_of\": \"2026-10-06 00:00:00\", \"recomendacao\": \"Ordem LIMITADA de compra a R$ 39.08. Assim que executada, cadastre no homebroker uma ordem STOP de venda a R$ 21.81 (protecao) e, se possivel, um take-profit (OCO) a R$ 79.96.\"}"
+    },
+    {
+      "id": 148,
+      "created_at": "2026-10-06 22:47:23",
+      "ticker": "RADL3",
+      "alert_type": "ENTRADA",
+      "reference_price": 21.299999237060547,
+      "limit_price": 21.66,
+      "stop_price": 12.251944651856258,
+      "take_price": 43.92013570007127,
+      "status": "novo",
+      "extra_json": "{\"atr\": 3.016018195068096, \"atr_pct\": 0.1415971034318363, \"variant\": \"trend_breakout\", \"as_of\": \"2026-10-06 00:00:00\", \"recomendacao\": \"Ordem LIMITADA de compra a R$ 21.66. Assim que executada, cadastre no homebroker uma ordem STOP de venda a R$ 12.25 (protecao) e, se possivel, um take-profit (OCO) a R$ 43.92.\"}"
+    },
+    {
+      "id": 147,
+      "created_at": "2026-10-06 22:47:23",
+      "ticker": "PSSA3",
+      "alert_type": "ENTRADA",
+      "reference_price": 52.689998626708984,
+      "limit_price": 53.53,
+      "stop_price": 31.744106333366524,
+      "take_price": 105.05472936006514,
+      "status": "novo",
+      "extra_json": "{\"atr\": 6.98196409778082, \"atr_pct\": 0.1325102349545632, \"variant\": \"trend_breakout\", \"as_of\": \"2026-10-06 00:00:00\", \"recomendacao\": \"Ordem LIMITADA de compra a R$ 53.53. Assim que executada, cadastre no homebroker uma ordem STOP de venda a R$ 31.74 (protecao) e, se possivel, um take-profit (OCO) a R$ 105.05.\"}"
+    },
+    {
+      "id": 146,
+      "created_at": "2026-10-06 22:47:22",
+      "ticker": "MOTV3",
+      "alert_type": "ENTRADA",
+      "reference_price": 19.600000381469727,
+      "limit_price": 19.9,
+      "stop_price": 12.20207528339435,
+      "take_price": 38.09481312665817,
+      "status": "novo",
+      "extra_json": "{\"atr\": 2.4659750326917917, \"atr_pct\": 0.12581505023965098, \"variant\": \"trend_breakout\", \"as_of\": \"2026-10-06 00:00:00\", \"recomendacao\": \"Ordem LIMITADA de compra a R$ 19.90. Assim que executada, cadastre no homebroker uma ordem STOP de venda a R$ 12.20 (protecao) e, se possivel, um take-profit (OCO) a R$ 38.09.\"}"
+    },
+    {
+      "id": 145,
+      "created_at": "2026-10-06 22:47:18",
+      "ticker": "CPFE3",
+      "alert_type": "ENTRADA",
+      "reference_price": 50.029998779296875,
+      "limit_price": 50.84,
+      "stop_price": 29.773059079389697,
+      "take_price": 100.67234802906484,
+      "status": "novo",
+      "extra_json": "{\"atr\": 6.752313233302394, \"atr_pct\": 0.13496528878782618, \"variant\": \"trend_breakout\", \"as_of\": \"2026-10-06 00:00:00\", \"recomendacao\": \"Ordem LIMITADA de compra a R$ 50.84. Assim que executada, cadastre no homebroker uma ordem STOP de venda a R$ 29.77 (protecao) e, se possivel, um take-profit (OCO) a R$ 100.67.\"}"
+    },
     {
       "id": 144,
       "created_at": "2026-10-06 18:40:25",
