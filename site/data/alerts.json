@@ -1,6 +1,18 @@
 {
-  "generated_at": "2026-10-06T22:47:27.003376",
+  "generated_at": "2026-10-07T19:06:43.144453",
   "alerts": [
+    {
+      "id": 151,
+      "created_at": "2026-10-07 19:06:38",
+      "ticker": "RECV3",
+      "alert_type": "ENTRADA",
+      "reference_price": 11.850000381469727,
+      "limit_price": 12.03,
+      "stop_price": 7.274385162580812,
+      "take_price": 23.289038428692013,
+      "status": "novo",
+      "extra_json": "{\"atr\": 1.5252050729629716, \"atr_pct\": 0.1287092847142849, \"variant\": \"trend_breakout\", \"as_of\": \"2026-10-07 00:00:00\", \"recomendacao\": \"Ordem LIMITADA de compra a R$ 12.03. Assim que executada, cadastre no homebroker uma ordem STOP de venda a R$ 7.27 (protecao) e, se possivel, um take-profit (OCO) a R$ 23.29.\"}"
+    },
     {
       "id": 150,
       "created_at": "2026-10-06 22:47:26",
