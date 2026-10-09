@@ -1,6 +1,30 @@
 {
-  "generated_at": "2026-10-09T18:33:35.230441",
+  "generated_at": "2026-10-09T22:53:27.498181",
   "alerts": [
+    {
+      "id": 191,
+      "created_at": "2026-10-09 22:53:23",
+      "ticker": "RECV3",
+      "alert_type": "ENTRADA",
+      "reference_price": 12.15999984741211,
+      "limit_price": 12.5,
+      "stop_price": 3.6914011022091966,
+      "take_price": 33.33149671041939,
+      "status": "novo",
+      "extra_json": "{\"atr\": 2.822866248400971, \"atr_pct\": 0.2321436088670456, \"variant\": \"trend_breakout\", \"as_of\": \"2026-10-09 00:00:00\", \"recomendacao\": \"Ordem LIMITADA de compra a R$ 12.50. Assim que executada, cadastre no homebroker uma ordem STOP de venda a R$ 3.69 (protecao) e, se possivel, um take-profit (OCO) a R$ 33.33.\"}"
+    },
+    {
+      "id": 190,
+      "created_at": "2026-10-09 22:53:17",
+      "ticker": "DIRR3",
+      "alert_type": "ENTRADA",
+      "reference_price": 12.359999656677246,
+      "limit_price": 12.7,
+      "stop_price": 3.799493874331162,
+      "take_price": 33.761264112542456,
+      "status": "novo",
+      "extra_json": "{\"atr\": 2.853501927448695, \"atr_pct\": 0.2308658581480742, \"variant\": \"trend_breakout\", \"as_of\": \"2026-10-09 00:00:00\", \"recomendacao\": \"Ordem LIMITADA de compra a R$ 12.70. Assim que executada, cadastre no homebroker uma ordem STOP de venda a R$ 3.80 (protecao) e, se possivel, um take-profit (OCO) a R$ 33.76.\"}"
+    },
     {
       "id": 189,
       "created_at": "2026-10-09 18:33:27",
@@ -466,7 +490,7 @@
       "limit_price": 12.03,
       "stop_price": 7.274385162580812,
       "take_price": 23.289038428692013,
-      "status": "novo",
+      "status": "expirado",
       "extra_json": "{\"atr\": 1.5252050729629716, \"atr_pct\": 0.1287092847142849, \"variant\": \"trend_breakout\", \"as_of\": \"2026-10-07 00:00:00\", \"recomendacao\": \"Ordem LIMITADA de compra a R$ 12.03. Assim que executada, cadastre no homebroker uma ordem STOP de venda a R$ 7.27 (protecao) e, se possivel, um take-profit (OCO) a R$ 23.29.\"}"
     },
     {
