@@ -1,6 +1,18 @@
 {
-  "generated_at": "2026-10-16T19:56:04.982881",
+  "generated_at": "2026-10-16T22:16:56.846215",
   "alerts": [
+    {
+      "id": 237,
+      "created_at": "2026-10-16 22:16:38",
+      "ticker": "BBSE3",
+      "alert_type": "ENTRADA",
+      "reference_price": 42.0099983215332,
+      "limit_price": 43.17,
+      "stop_price": 12.965597671917223,
+      "take_price": 114.62099994557315,
+      "status": "novo",
+      "extra_json": "{\"atr\": 9.681466883205326, \"atr_pct\": 0.2304562549397405, \"variant\": \"trend_breakout\", \"as_of\": \"2026-10-16 00:00:00\", \"recomendacao\": \"Ordem LIMITADA de compra a R$ 43.17. Assim que executada, cadastre no homebroker uma ordem STOP de venda a R$ 12.97 (protecao) e, se possivel, um take-profit (OCO) a R$ 114.62.\"}"
+    },
     {
       "id": 236,
       "created_at": "2026-10-16 19:55:59",
