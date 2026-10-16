@@ -1,6 +1,78 @@
 {
-  "generated_at": "2026-10-16T17:01:45.858008",
+  "generated_at": "2026-10-16T19:56:04.982881",
   "alerts": [
+    {
+      "id": 236,
+      "created_at": "2026-10-16 19:55:59",
+      "ticker": "RECV3",
+      "alert_type": "ENTRADA",
+      "reference_price": 12.5600004196167,
+      "limit_price": 12.9,
+      "stop_price": 4.095881043609454,
+      "take_price": 33.72029885963481,
+      "status": "novo",
+      "extra_json": "{\"atr\": 2.8213731253357484, \"atr_pct\": 0.22463161075450425, \"variant\": \"trend_breakout\", \"as_of\": \"2026-10-16 00:00:00\", \"recomendacao\": \"Ordem LIMITADA de compra a R$ 12.90. Assim que executada, cadastre no homebroker uma ordem STOP de venda a R$ 4.10 (protecao) e, se possivel, um take-profit (OCO) a R$ 33.72.\"}"
+    },
+    {
+      "id": 235,
+      "created_at": "2026-10-16 19:55:58",
+      "ticker": "PRIO3",
+      "alert_type": "ENTRADA",
+      "reference_price": 70.58000183105469,
+      "limit_price": 72.43,
+      "stop_price": 24.299945452737795,
+      "take_price": 186.2801427768469,
+      "status": "novo",
+      "extra_json": "{\"atr\": 15.426685459438964, \"atr_pct\": 0.21857020486292103, \"variant\": \"trend_breakout\", \"as_of\": \"2026-10-16 00:00:00\", \"recomendacao\": \"Ordem LIMITADA de compra a R$ 72.43. Assim que executada, cadastre no homebroker uma ordem STOP de venda a R$ 24.30 (protecao) e, se possivel, um take-profit (OCO) a R$ 186.28.\"}"
+    },
+    {
+      "id": 234,
+      "created_at": "2026-10-16 19:55:57",
+      "ticker": "PETR4",
+      "alert_type": "ENTRADA",
+      "reference_price": 59.33000183105469,
+      "limit_price": 60.86,
+      "stop_price": 21.181117810394923,
+      "take_price": 154.7022118827041,
+      "status": "novo",
+      "extra_json": "{\"atr\": 12.716294673553255, \"atr_pct\": 0.21433160763695197, \"variant\": \"trend_breakout\", \"as_of\": \"2026-10-16 00:00:00\", \"recomendacao\": \"Ordem LIMITADA de compra a R$ 60.86. Assim que executada, cadastre no homebroker uma ordem STOP de venda a R$ 21.18 (protecao) e, se possivel, um take-profit (OCO) a R$ 154.70.\"}"
+    },
+    {
+      "id": 233,
+      "created_at": "2026-10-16 19:55:57",
+      "ticker": "PETR3",
+      "alert_type": "ENTRADA",
+      "reference_price": 66.25,
+      "limit_price": 67.95,
+      "stop_price": 23.855121236874524,
+      "take_price": 172.23719690781368,
+      "status": "novo",
+      "extra_json": "{\"atr\": 14.131626254375158, \"atr_pct\": 0.21330756610377596, \"variant\": \"trend_breakout\", \"as_of\": \"2026-10-16 00:00:00\", \"recomendacao\": \"Ordem LIMITADA de compra a R$ 67.95. Assim que executada, cadastre no homebroker uma ordem STOP de venda a R$ 23.86 (protecao) e, se possivel, um take-profit (OCO) a R$ 172.24.\"}"
+    },
+    {
+      "id": 232,
+      "created_at": "2026-10-16 19:55:51",
+      "ticker": "CXSE3",
+      "alert_type": "ENTRADA",
+      "reference_price": 21.770000457763672,
+      "limit_price": 22.37,
+      "stop_price": 6.72699311037033,
+      "take_price": 59.37751882624703,
+      "status": "novo",
+      "extra_json": "{\"atr\": 5.014335782464447, \"atr_pct\": 0.230332369178992, \"variant\": \"trend_breakout\", \"as_of\": \"2026-10-16 00:00:00\", \"recomendacao\": \"Ordem LIMITADA de compra a R$ 22.37. Assim que executada, cadastre no homebroker uma ordem STOP de venda a R$ 6.73 (protecao) e, se possivel, um take-profit (OCO) a R$ 59.38.\"}"
+    },
+    {
+      "id": 231,
+      "created_at": "2026-10-16 19:55:50",
+      "ticker": "CPLE3",
+      "alert_type": "ENTRADA",
+      "reference_price": 17.65999984741211,
+      "limit_price": 18.15,
+      "stop_price": 5.476550067968375,
+      "take_price": 48.11862429602145,
+      "status": "novo",
+      "extra_json": "{\"atr\": 4.061149926481245, \"atr_pct\": 0.2299631914819277, \"variant\": \"trend_breakout\", \"as_of\": \"2026-10-16 00:00:00\", \"recomendacao\": \"Ordem LIMITADA de compra a R$ 18.15. Assim que executada, cadastre no homebroker uma ordem STOP de venda a R$ 5.48 (protecao) e, se possivel, um take-profit (OCO) a R$ 48.12.\"}"
+    },
     {
       "id": 230,
       "created_at": "2026-10-15 17:25:13",
