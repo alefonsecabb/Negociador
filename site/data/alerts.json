@@ -1,6 +1,42 @@
 {
-  "generated_at": "2026-10-21T17:43:12.457399",
+  "generated_at": "2026-10-21T20:54:04.069816",
   "alerts": [
+    {
+      "id": 255,
+      "created_at": "2026-10-21 20:54:03",
+      "ticker": "VIVT3",
+      "alert_type": "ENTRADA",
+      "reference_price": 32.720001220703125,
+      "limit_price": 33.46,
+      "stop_price": 14.313567020272231,
+      "take_price": 78.73608672178037,
+      "status": "novo",
+      "extra_json": "{\"atr\": 6.135478066810298, \"atr_pct\": 0.18751460384812454, \"variant\": \"trend_breakout\", \"as_of\": \"2026-10-21 00:00:00\", \"recomendacao\": \"Ordem LIMITADA de compra a R$ 33.46. Assim que executada, cadastre no homebroker uma ordem STOP de venda a R$ 14.31 (protecao) e, se possivel, um take-profit (OCO) a R$ 78.74.\"}"
+    },
+    {
+      "id": 254,
+      "created_at": "2026-10-21 20:54:01",
+      "ticker": "TOTS3",
+      "alert_type": "ENTRADA",
+      "reference_price": 43.15999984741211,
+      "limit_price": 44.12,
+      "stop_price": 19.201042553013018,
+      "take_price": 103.05739308340983,
+      "status": "novo",
+      "extra_json": "{\"atr\": 7.9863190981330305, \"atr_pct\": 0.18503983147284217, \"variant\": \"trend_breakout\", \"as_of\": \"2026-10-21 00:00:00\", \"recomendacao\": \"Ordem LIMITADA de compra a R$ 44.12. Assim que executada, cadastre no homebroker uma ordem STOP de venda a R$ 19.20 (protecao) e, se possivel, um take-profit (OCO) a R$ 103.06.\"}"
+    },
+    {
+      "id": 253,
+      "created_at": "2026-10-21 20:53:54",
+      "ticker": "GGBR4",
+      "alert_type": "ENTRADA",
+      "reference_price": 26.479999542236328,
+      "limit_price": 27.09,
+      "stop_price": 11.151144477137748,
+      "take_price": 64.80213720498278,
+      "status": "novo",
+      "extra_json": "{\"atr\": 5.10961835503286, \"atr_pct\": 0.1929614215771748, \"variant\": \"trend_breakout\", \"as_of\": \"2026-10-21 00:00:00\", \"recomendacao\": \"Ordem LIMITADA de compra a R$ 27.09. Assim que executada, cadastre no homebroker uma ordem STOP de venda a R$ 11.15 (protecao) e, se possivel, um take-profit (OCO) a R$ 64.80.\"}"
+    },
     {
       "id": 252,
       "created_at": "2026-10-20 20:51:59",
