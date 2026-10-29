@@ -1,6 +1,18 @@
 {
-  "generated_at": "2026-10-28T22:51:17.966204",
+  "generated_at": "2026-10-29T18:41:42.520828",
   "alerts": [
+    {
+      "id": 263,
+      "created_at": "2026-10-29 18:41:39",
+      "ticker": "SUZB3",
+      "alert_type": "ENTRADA",
+      "reference_price": 49.630001068115234,
+      "limit_price": 50.38,
+      "stop_price": 30.830536898192193,
+      "take_price": 96.62866149292284,
+      "status": "novo",
+      "extra_json": "{\"atr\": 6.2664880566410135, \"atr_pct\": 0.12626411287077152, \"variant\": \"trend_breakout\", \"as_of\": \"2026-10-29 00:00:00\", \"recomendacao\": \"Ordem LIMITADA de compra a R$ 50.38. Assim que executada, cadastre no homebroker uma ordem STOP de venda a R$ 30.83 (protecao) e, se possivel, um take-profit (OCO) a R$ 96.63.\"}"
+    },
     {
       "id": 262,
       "created_at": "2026-10-26 18:54:39",
