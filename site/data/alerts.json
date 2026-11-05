@@ -1,6 +1,30 @@
 {
-  "generated_at": "2026-11-04T20:06:50.484781",
+  "generated_at": "2026-11-05T00:52:07.027073",
   "alerts": [
+    {
+      "id": 269,
+      "created_at": "2026-11-05 00:52:02",
+      "ticker": "SUZB3",
+      "alert_type": "ENTRADA",
+      "reference_price": 52.45000076293945,
+      "limit_price": 53.45,
+      "stop_price": 27.485062532431648,
+      "take_price": 114.86234633920895,
+      "status": "novo",
+      "extra_json": "{\"atr\": 8.321646076835934, \"atr_pct\": 0.15865864548692077, \"variant\": \"trend_breakout\", \"as_of\": \"2026-11-04 00:00:00\", \"recomendacao\": \"Ordem LIMITADA de compra a R$ 53.45. Assim que executada, cadastre no homebroker uma ordem STOP de venda a R$ 27.49 (protecao) e, se possivel, um take-profit (OCO) a R$ 114.86.\"}"
+    },
+    {
+      "id": 268,
+      "created_at": "2026-11-05 00:51:50",
+      "ticker": "EMBJ3",
+      "alert_type": "ENTRADA",
+      "reference_price": 106.72000122070312,
+      "limit_price": 109.5,
+      "stop_price": 37.23436163782546,
+      "take_price": 280.43410017789734,
+      "status": "novo",
+      "extra_json": "{\"atr\": 23.161879860959225, \"atr_pct\": 0.2170341041606542, \"variant\": \"trend_breakout\", \"as_of\": \"2026-11-04 00:00:00\", \"recomendacao\": \"Ordem LIMITADA de compra a R$ 109.50. Assim que executada, cadastre no homebroker uma ordem STOP de venda a R$ 37.23 (protecao) e, se possivel, um take-profit (OCO) a R$ 280.43.\"}"
+    },
     {
       "id": 267,
       "created_at": "2026-11-04 20:06:33",
@@ -22,7 +46,7 @@
       "limit_price": 51.11,
       "stop_price": 32.65774427461477,
       "take_price": 94.75564465403924,
-      "status": "novo",
+      "status": "expirado",
       "extra_json": "{\"atr\": 5.914085750421378, \"atr_pct\": 0.11734296768591705, \"variant\": \"trend_breakout\", \"as_of\": \"2026-10-30 00:00:00\", \"recomendacao\": \"Ordem LIMITADA de compra a R$ 51.11. Assim que executada, cadastre no homebroker uma ordem STOP de venda a R$ 32.66 (protecao) e, se possivel, um take-profit (OCO) a R$ 94.76.\"}"
     },
     {
@@ -34,7 +58,7 @@
       "limit_price": 102.48,
       "stop_price": 43.16730769211212,
       "take_price": 242.78172008856734,
-      "status": "novo",
+      "status": "expirado",
       "extra_json": "{\"atr\": 19.010896418710022, \"atr_pct\": 0.18972951095527485, \"variant\": \"trend_breakout\", \"as_of\": \"2026-10-30 00:00:00\", \"recomendacao\": \"Ordem LIMITADA de compra a R$ 102.48. Assim que executada, cadastre no homebroker uma ordem STOP de venda a R$ 43.17 (protecao) e, se possivel, um take-profit (OCO) a R$ 242.78.\"}"
     },
     {
