@@ -1,6 +1,18 @@
 {
-  "generated_at": "2026-11-11T19:54:25.765407",
+  "generated_at": "2026-11-12T01:42:27.026600",
   "alerts": [
+    {
+      "id": 273,
+      "created_at": "2026-11-12 01:42:26",
+      "ticker": "VIVT3",
+      "alert_type": "ENTRADA",
+      "reference_price": 34.189998626708984,
+      "limit_price": 34.92,
+      "stop_price": 16.061717215123025,
+      "take_price": 79.5107021556739,
+      "status": "novo",
+      "extra_json": "{\"atr\": 6.042760470528654, \"atr_pct\": 0.17674058827858777, \"variant\": \"trend_breakout\", \"as_of\": \"2026-11-11 00:00:00\", \"recomendacao\": \"Ordem LIMITADA de compra a R$ 34.92. Assim que executada, cadastre no homebroker uma ordem STOP de venda a R$ 16.06 (protecao) e, se possivel, um take-profit (OCO) a R$ 79.51.\"}"
+    },
     {
       "id": 272,
       "created_at": "2026-11-10 20:04:06",
