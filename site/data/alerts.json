@@ -1,6 +1,30 @@
 {
-  "generated_at": "2026-11-16T22:35:31.554358",
+  "generated_at": "2026-11-17T21:24:49.726163",
   "alerts": [
+    {
+      "id": 276,
+      "created_at": "2026-11-17 21:24:48",
+      "ticker": "VIVT3",
+      "alert_type": "ENTRADA",
+      "reference_price": 35.790000915527344,
+      "limit_price": 36.82,
+      "stop_price": 10.008143987265449,
+      "take_price": 100.24464323618207,
+      "status": "novo",
+      "extra_json": "{\"atr\": 8.593952309420631, \"atr_pct\": 0.24012160071480135, \"variant\": \"trend_breakout\", \"as_of\": \"2026-11-17 00:00:00\", \"recomendacao\": \"Ordem LIMITADA de compra a R$ 36.82. Assim que executada, cadastre no homebroker uma ordem STOP de venda a R$ 10.01 (protecao) e, se possivel, um take-profit (OCO) a R$ 100.24.\"}"
+    },
+    {
+      "id": 275,
+      "created_at": "2026-11-17 21:24:47",
+      "ticker": "TIMS3",
+      "alert_type": "ENTRADA",
+      "reference_price": 22.389999389648438,
+      "limit_price": 23.05,
+      "stop_price": 5.8955821982948216,
+      "take_price": 63.62604236803248,
+      "status": "novo",
+      "extra_json": "{\"atr\": 5.498139063784539, \"atr_pct\": 0.24556226948029716, \"variant\": \"trend_breakout\", \"as_of\": \"2026-11-17 00:00:00\", \"recomendacao\": \"Ordem LIMITADA de compra a R$ 23.05. Assim que executada, cadastre no homebroker uma ordem STOP de venda a R$ 5.90 (protecao) e, se possivel, um take-profit (OCO) a R$ 63.63.\"}"
+    },
     {
       "id": 274,
       "created_at": "2026-11-12 20:30:59",
