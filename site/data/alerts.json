@@ -1,6 +1,54 @@
 {
-  "generated_at": "2026-11-24T22:49:15.200010",
+  "generated_at": "2026-11-25T22:01:40.054104",
   "alerts": [
+    {
+      "id": 280,
+      "created_at": "2026-11-25 22:01:36",
+      "ticker": "SBSP3",
+      "alert_type": "ENTRADA",
+      "reference_price": 28.309999465942383,
+      "limit_price": 29.7,
+      "stop_price": 0.01,
+      "take_price": 115.39054566493711,
+      "status": "novo",
+      "extra_json": "{\"atr\": 11.610739493199297, \"atr_pct\": 0.4101285663098404, \"variant\": \"trend_breakout\", \"as_of\": \"2026-11-25 00:00:00\", \"recomendacao\": \"Ordem LIMITADA de compra a R$ 29.70. Assim que executada, cadastre no homebroker uma ordem STOP de venda a R$ 0.01 (protecao) e, se possivel, um take-profit (OCO) a R$ 115.39.\"}"
+    },
+    {
+      "id": 279,
+      "created_at": "2026-11-25 22:01:35",
+      "ticker": "RAIL3",
+      "alert_type": "ENTRADA",
+      "reference_price": 17.0,
+      "limit_price": 17.83,
+      "stop_price": 0.01,
+      "take_price": 68.71549219581466,
+      "status": "novo",
+      "extra_json": "{\"atr\": 6.8953989594419545, \"atr_pct\": 0.40561170349658554, \"variant\": \"trend_breakout\", \"as_of\": \"2026-11-25 00:00:00\", \"recomendacao\": \"Ordem LIMITADA de compra a R$ 17.83. Assim que executada, cadastre no homebroker uma ordem STOP de venda a R$ 0.01 (protecao) e, se possivel, um take-profit (OCO) a R$ 68.72.\"}"
+    },
+    {
+      "id": 278,
+      "created_at": "2026-11-25 22:01:33",
+      "ticker": "MGLU3",
+      "alert_type": "ENTRADA",
+      "reference_price": 9.319999694824219,
+      "limit_price": 9.75,
+      "stop_price": 0.01,
+      "take_price": 36.30564353364883,
+      "status": "novo",
+      "extra_json": "{\"atr\": 3.5980858451766147, \"atr_pct\": 0.38606072564302557, \"variant\": \"trend_breakout\", \"as_of\": \"2026-11-25 00:00:00\", \"recomendacao\": \"Ordem LIMITADA de compra a R$ 9.75. Assim que executada, cadastre no homebroker uma ordem STOP de venda a R$ 0.01 (protecao) e, se possivel, um take-profit (OCO) a R$ 36.31.\"}"
+    },
+    {
+      "id": 277,
+      "created_at": "2026-11-25 22:01:28",
+      "ticker": "CSMG3",
+      "alert_type": "ENTRADA",
+      "reference_price": 59.72999954223633,
+      "limit_price": 62.65,
+      "stop_price": 0.01,
+      "take_price": 242.1322329411158,
+      "status": "novo",
+      "extra_json": "{\"atr\": 24.320297786517262, \"atr_pct\": 0.4071705671003709, \"variant\": \"trend_breakout\", \"as_of\": \"2026-11-25 00:00:00\", \"recomendacao\": \"Ordem LIMITADA de compra a R$ 62.65. Assim que executada, cadastre no homebroker uma ordem STOP de venda a R$ 0.01 (protecao) e, se possivel, um take-profit (OCO) a R$ 242.13.\"}"
+    },
     {
       "id": 276,
       "created_at": "2026-11-17 21:24:48",
